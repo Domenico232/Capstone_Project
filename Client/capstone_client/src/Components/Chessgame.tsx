@@ -109,12 +109,9 @@ const renderSquare = (row: number, col: number) => {
             if (piece==="p" || piece==="P") {
                 console.log(piece==="p"|| piece==="P");
                 console.log(startRow-endRow)
+                console.log((startCol-endCol))
                 console.log("sottrazione colonne ",startCol-endCol,startCol,endCol);
                 console.log("true true?? "+(startRow-endRow===1),(startRow-endRow===-1));
-                //pawn capture??
-            //}if ((startRow-endRow>0 || startRow-endRow<0) ){
-              //  return false
-              //}else 
                  if (pieceMove===null) {
                     console.log("piece move state",pieceMove)
                     if (!(startRow-endRow===0)) {
@@ -125,7 +122,7 @@ const renderSquare = (row: number, col: number) => {
                             return false
                      }
                     console.log("passo qui")
-
+                     //if pawn go on populated cell
                 }else{
                     console.log("verify full cell_________________")
                     console.log((startRow-endRow))
@@ -133,7 +130,11 @@ const renderSquare = (row: number, col: number) => {
 
                     if (!(startRow-endRow===-1 || startRow-endRow===1)) {
                         return false  
-                    } else{
+                    }  
+                    if (!(startCol-endCol===-1 || startCol-endCol===1)) {
+                        return false  
+                    }
+                    else{
                         return true
                     }
                 }
