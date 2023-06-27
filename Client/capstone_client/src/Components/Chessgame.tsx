@@ -43,6 +43,7 @@ const ChessGame: React.FC = () => {
       } else {
         // Altrimenti, seleziona il pezzo se presente nella cella cliccata
         const piece = boardState[row][col];
+        console.log(piece)
         if (piece !== null) {
           setSelectedPiece({ row, col });
         }
