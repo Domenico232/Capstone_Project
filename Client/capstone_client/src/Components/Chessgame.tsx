@@ -114,6 +114,9 @@ const renderSquare = (row: number, col: number) => {
                     if(startCol-endCol>2) {
                             return false
                      }
+                     if (endCol>startCol) {
+                        return false
+                     }
                      //if pawn go on populated cell
                 }else{
                     console.log("verify full cell_________________")
@@ -131,37 +134,31 @@ const renderSquare = (row: number, col: number) => {
                 }
            
       }else if (piece==="P") {
-            console.log(piece==="P");
-                console.log(startRow-endRow)
-                console.log((startCol-endCol))
-                console.log("sottrazione colonne ",startCol-endCol,startCol,endCol);
-                console.log("true true?? "+(startRow-endRow===1),(startRow-endRow===-1));
-                 if (pieceMove===null) {
-                    console.log("piece move state",pieceMove)
-                    if (!(startRow-endRow===0)) {
-                        return false;
-                    }
-                    if(startCol-endCol<-2) {
-                        console.log("qui");
-                            return false
-                     }
-                    console.log("passo qui")
-                     //if pawn go on populated cell
-                }else{
-                    console.log("verify full cell_________________")
-                    console.log((startRow-endRow))
-                    console.log((startCol-endCol))
+        if (pieceMove===null) {
+            if (!(startRow-endRow===0)) {
+                return false;
+            }
+            if(startCol-endCol<-2) {
+                    return false
+             }
+             if (endCol<startCol) {
+                return false
+             }
+             //if pawn go on populated cell
+        }else{
+            console.log("verify full cell_________________")
+            console.log((startRow-endRow))
+            console.log("&&")
+            console.log((startCol-endCol))
 
-                    if (!(startRow-endRow===-1 || startRow-endRow===1)) {
-                        return false  
-                    }  
-                    if (!(startCol-endCol===-1 || startCol-endCol===1)) {
-                        return false  
-                    }
-                    else{
-                        return true
-                    }
+            if (!(startRow-endRow===-1 && startCol-endCol===-1)) {
+                if ((startRow-endRow===1 && startCol-endCol===-1)) {
+                    return true
                 }
+                return false     
+            } 
+            
+        }
       }
 
           return true;
