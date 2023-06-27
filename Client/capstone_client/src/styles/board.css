@@ -13,13 +13,6 @@
 .square.white{
     background-color: rgb(240, 235, 235);
 }
-
-.cell.white{
-    background-color: rgba(255, 255, 255, 0.233);
-}
-.cell.black{
-    background-color: rgb(13, 48, 31);
-}
 .square{
     display: flex;
     justify-content: center;
