@@ -1,3 +1,20 @@
-#chessboard{
+.chessboard{
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: auto;
+    width: 800px;
+    height: 800px;
     background-color: brown;
+}
+
+.cell{
+    width: 100px;
+    height: 100px;
+}
+
+.cell.white{
+    background-color: darkgoldenrod;
+}
+.cell.black{
+    background-color: rgb(13, 48, 31);
 }
