@@ -62,17 +62,10 @@ const ChessGame: React.FC = () => {
     };
   
     const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
-      // Implementa la logica di validazione delle mosse qui
-      // Restituisci true se la mossa è valida, altrimenti false
-      // Esempio: controlla se la mossa rispetta le regole degli scacchi
-      // - Puoi utilizzare la matrice boardState per controllare le posizioni dei pezzi
-      // - startRow, startCol sono le coordinate iniziali del pezzo
-      // - endRow, endCol sono le coordinate di destinazione della mossa
-      return true; // Da sostituire con la tua logica di validazione delle mosse
+      return true;
     };
   
     const movePiece = (startRow: number, startCol: number, endRow: number, endCol: number) => {
-      // Esegui la mossa effettiva e aggiorna lo stato della scacchiera
       const newBoardState = [...boardState];
       const piece = newBoardState[startRow][startCol];
       newBoardState[startRow][startCol] = null;
