@@ -11,7 +11,7 @@ interface SquareProps {
     const color = isBlack ? "black" : "white";
     return (
       <div className={`square ${color}`} onClick={onClick}>
-        {piece && <img className="piece" src={image} alt="piece" />}
+        {piece && <img className="piece" src={image} alt={piece} />}
       </div>
     );
   };
