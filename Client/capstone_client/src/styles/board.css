@@ -18,3 +18,8 @@
 .cell.black{
     background-color: rgb(13, 48, 31);
 }
+.piece{
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+}

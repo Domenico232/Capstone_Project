@@ -11,7 +11,7 @@ interface Piece {
 }
 
 const pieces: Piece[] = []
-pieces.push({image : "../assets/images/Chess_pawn_b.png", x:1, y:7})
+pieces.push({image : "", x:1, y:7})
 
 export default function Board(){
     let board = [];
