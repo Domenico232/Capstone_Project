@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/board.css"
+import Square from "./Square";
 //white pieces
 const wPawn:string="https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg"
 const wKnight:string="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg";
@@ -16,20 +17,7 @@ const bRook:string="https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rd
 const bKing:string="https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen:string="https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
 
-interface SquareProps {
-  isBlack: boolean;
-  piece: string | null;
-  onClick: () => void;
-}
 
-const Square: React.FC<SquareProps> = ({ isBlack, piece, onClick }) => {
-  const color = isBlack ? "black" : "white";
-  return (
-    <div className={`square ${color}`} onClick={onClick}>
-      {piece && <img className="piece" src={piece} alt="piece" />}
-    </div>
-  );
-};
 const ChessGame: React.FC = () => {
    const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
         // Inizializzazione della scacchiera
@@ -51,50 +39,51 @@ const ChessGame: React.FC = () => {
         if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
           movePiece(selectedPiece.row, selectedPiece.col, row, col);
         }
-        setSelectedPiece(null); // Deseleziona il pezzo
+        setSelectedPiece(null);
       } else {
         // Altrimenti, seleziona il pezzo se presente nella cella cliccata
         const piece = boardState[row][col];
         if (piece !== null) {
           setSelectedPiece({ row, col });
         }
-      }
-    };
-  
-    const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
-      return true;
-    };
-  
-    const movePiece = (startRow: number, startCol: number, endRow: number, endCol: number) => {
-      const newBoardState = [...boardState];
-      const piece = newBoardState[startRow][startCol];
-      newBoardState[startRow][startCol] = null;
-      newBoardState[endRow][endCol] = piece;
-      setBoardState(newBoardState);
-    };
-  
-    const renderSquare = (row: number, col: number) => {
-      const isBlack = (row + col) % 2 === 1;
-      const piece = boardState[row][col];
-  
-      return (
-        <Square
+    }
+};
+
+
+const renderSquare = (row: number, col: number) => {
+    const isBlack = (row + col) % 2 === 1;
+        const piece = boardState[row][col];
+        return (
+            <Square
           key={`${row}-${col}`}
           isBlack={isBlack}
           piece={piece}
           onClick={() => handleSquareClick(row, col)}
-        />
-      );
-    };
-  
-    const renderBoard = () => {
-      const rows = boardState.map((row, rowIndex) => (
-        <div className="row" key={rowIndex}>
-          {row.map((_, colIndex) => renderSquare(rowIndex, colIndex))}
-        </div>
-      ));
-      return <div className="board">{rows}</div>;
-    };
+          />
+          );
+        };
+
+        const renderBoard = () => {
+          const rows = boardState.map((row, rowIndex) => (
+            <div className="row" key={rowIndex}>
+              {row.map((_, colIndex) => renderSquare(rowIndex, colIndex))}
+            </div>
+          ));
+          return <div className="board">{rows}</div>;
+        };
+        
+        const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
+          return true;
+        };
+      
+        const movePiece = (startRow: number, startCol: number, endRow: number, endCol: number) => {
+          const newBoardState = [...boardState];
+          const piece = newBoardState[startRow][startCol];
+          newBoardState[startRow][startCol] = null;
+          newBoardState[endRow][endCol] = piece;
+          setBoardState(newBoardState);
+        };
+        
   
     return (
       <div className="chess-game">
