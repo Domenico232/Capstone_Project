@@ -21,14 +21,14 @@ const bQueen:string="https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_q
 const ChessGame: React.FC = () => {
    const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
         // Inizializzazione della scacchiera
-        [bRook, bKnight, bBishop, bQueen, bKing, bBishop, bKnight, bRook],
-        [bPawn, bPawn, bPawn, bPawn, bPawn, bPawn, bPawn, bPawn],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [wPawn, wPawn, wPawn, wPawn, wPawn, wPawn, wPawn, wPawn],
-        [wRook, wKnight, wBishop, wQueen, wKing, wBishop, wKnight, wRook],
+        ["R", "P", null, null, null, null, "p", "r"],
+        ["N", "P", null, null, null, null, "p", "n"],
+        ["B", "P", null, null, null, null, "p", "b"],
+        ["Q", "P", null, null, null, null, "p", "q"],
+        ["K", "P", null, null, null, null, "p", "k"],
+        ["B", "P", null, null, null, null, "p", "b"],
+        ["N", "P", null, null, null, null, "p", "n"],
+        ["R", "P", null, null, null, null, "p", "r"],
       ]);
   
     const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
@@ -49,29 +49,60 @@ const ChessGame: React.FC = () => {
     }
 };
 
+console.log("BOARDSTATE"+boardState);
 
 const renderSquare = (row: number, col: number) => {
     const isBlack = (row + col) % 2 === 1;
         const piece = boardState[row][col];
+            let image = "";
+        if (piece === "p") {
+            image = wPawn;
+        }else if(piece === "P"){
+            image = bPawn;
+        }else if(piece === "R"){
+            image = bRook;
+        }else if(piece === "r"){
+            image = wRook;
+        }else if(piece === "n"){
+            image = wKnight;
+        }else if(piece === "N"){
+            image = bKnight;
+        }else if(piece === "b"){
+            image = wBishop;
+        }else if(piece === "B"){
+            image = bBishop;
+        }else if(piece === "q"){
+            image = wQueen;
+        }else if(piece === "Q"){
+            image = bQueen;
+        }else if(piece === "k"){
+            image = wKing;
+        }else if(piece === "K"){
+            image = bKing;
+        }else{
+            image="";
+        }
         return (
             <Square
           key={`${row}-${col}`}
           isBlack={isBlack}
           piece={piece}
+          image={image}
           onClick={() => handleSquareClick(row, col)}
           />
           );
         };
 
         const renderBoard = () => {
-          const rows = boardState.map((row, rowIndex) => (
-            <div className="row" key={rowIndex}>
+            const rows = boardState.map((row, rowIndex) => (
+                <div className="row" key={rowIndex}>
               {row.map((_, colIndex) => renderSquare(rowIndex, colIndex))}
+
             </div>
           ));
           return <div className="board">{rows}</div>;
         };
-        
+
         const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
           return true;
         };
