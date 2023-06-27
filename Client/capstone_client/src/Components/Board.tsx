@@ -39,6 +39,9 @@ pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_
 pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg", x:3, y:0})
 pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg", x:3, y:7})
 
+function movePiece(e:React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    console.log(e.target);
+}
 
 export default function Board(){
     let board = [];
@@ -51,13 +54,13 @@ export default function Board(){
                     image = p.image
                 }
             });
-            board.push(<Cells image={image} number={number} />);
-            
+            board.push(<Cells key={xAxis[i]+""+(j+1)} image={image} number={number} />);
+            console.log(xAxis[i]+""+(j+1))
         }
         
     }
     return(
-    <div className="chessboard">
+    <div onMouseDown={e => movePiece(e)} className="chessboard">
         {board}
     </div>
     )

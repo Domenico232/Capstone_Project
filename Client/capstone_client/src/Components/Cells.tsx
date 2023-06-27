@@ -8,11 +8,11 @@ export default function Cells({number,image}:Props){
 
      if ((number%2)===0) {
                 
-                return <span className="cell black">{image? <img className="piece" src={image} alt="piece" />: <></>}</span>
+                return <div className="cell black">{image&&<div className="piece" style={{backgroundImage: `url(${image})`}}></div>}</div>
             
             }else{
                
-                return<span className="cell white">{image? <img className="piece" src={image} alt="piece" />: <></>}</span>
+                return<div className="cell white">{image&&<div className="piece" style={{backgroundImage: `url(${image})`}}></div>}</div>
                 
             }
 }
