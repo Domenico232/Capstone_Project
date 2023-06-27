@@ -39,10 +39,34 @@ pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_
 pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg", x:3, y:0})
 pieces.push({image : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg", x:3, y:7})
 
-function movePiece(e:React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    console.log(e.target);
-}
+let activePiece: HTMLElement | null = null;
 
+/*function grab(e:React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const element = e.target as HTMLElement;
+    if (element.classList.contains("piece")) {
+        const x = e.clientX;
+        const y = e.clientY;
+        console.log(element)
+        element.style.position="absolute"
+        element.style.left= `${x}px`
+        element.style.top= `${y}px`
+        element.style.pointerEvents = 'none'; // Per evitare che l'elemento riceva nuovi eventi durante il trascinamento
+        element.style.zIndex = '1000'; // Imposta un valore di zIndex elevato per assicurarsi che il pezzo sia visibile sopra gli altri elementi
+        activePiece = element;
+    }
+}
+function move(e:React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    if (activePiece?.classList.contains("piece")) {
+        const x = e.clientX;
+        const y = e.clientY;
+        activePiece.style.position="fixed"
+        activePiece.style.left= `${x}px`
+        activePiece.style.top= `${y}px`
+    }
+}
+function drop(e:React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    console.log(e.target);
+}*/
 export default function Board(){
     let board = [];
     for (let j:number = yAxis.length-1; j >=0 ; j--) {
@@ -59,8 +83,10 @@ export default function Board(){
         }
         
     }
+    console.log(board)
     return(
-    <div onMouseDown={e => movePiece(e)} className="chessboard">
+    <div 
+         className="chessboard">
         {board}
     </div>
     )
