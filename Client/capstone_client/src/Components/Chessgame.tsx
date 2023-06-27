@@ -106,8 +106,32 @@ const renderSquare = (row: number, col: number) => {
         const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
             const piece = boardState[startRow][startCol]
             const pieceMove = boardState[endRow][endCol]
-            if (piece==="p" || piece==="P") {
-                console.log(piece==="p"|| piece==="P");
+            if (piece==="p") {
+                 if (pieceMove===null) {
+                    if (!(startRow-endRow===0)) {
+                        return false;
+                    }
+                    if(startCol-endCol>2) {
+                            return false
+                     }
+                     //if pawn go on populated cell
+                }else{
+                    console.log("verify full cell_________________")
+                    console.log((startRow-endRow))
+                    console.log("&&")
+                    console.log((startCol-endCol))
+
+                    if (!(startRow-endRow===-1 && startCol-endCol===1)) {
+                        if ((startRow-endRow===1 && startCol-endCol===1)) {
+                            return true
+                        }
+                        return false     
+                    } 
+                    
+                }
+           
+      }else if (piece==="P") {
+            console.log(piece==="P");
                 console.log(startRow-endRow)
                 console.log((startCol-endCol))
                 console.log("sottrazione colonne ",startCol-endCol,startCol,endCol);
@@ -117,7 +141,7 @@ const renderSquare = (row: number, col: number) => {
                     if (!(startRow-endRow===0)) {
                         return false;
                     }
-                    if(startCol-endCol>2) {
+                    if(startCol-endCol<-2) {
                         console.log("qui");
                             return false
                      }
@@ -138,7 +162,6 @@ const renderSquare = (row: number, col: number) => {
                         return true
                     }
                 }
-           
       }
 
           return true;
