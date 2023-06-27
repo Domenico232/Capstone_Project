@@ -34,14 +34,13 @@ const ChessGame: React.FC = () => {
     const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
   
     const handleSquareClick = (row: number, col: number) => {
+        console.log(row,col)
       if (selectedPiece) {
-        // Se è stato selezionato un pezzo, controlla se la mossa è valida
         if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
           movePiece(selectedPiece.row, selectedPiece.col, row, col);
         }
         setSelectedPiece(null);
       } else {
-        // Altrimenti, seleziona il pezzo se presente nella cella cliccata
         const piece = boardState[row][col];
         console.log(piece)
         if (piece !== null) {
@@ -50,7 +49,7 @@ const ChessGame: React.FC = () => {
     }
 };
 
-console.log("BOARDSTATE"+boardState);
+console.log("BOARDSTATE "+boardState);
 
 const renderSquare = (row: number, col: number) => {
     const isBlack = (row + col) % 2 === 1;
@@ -105,11 +104,48 @@ const renderSquare = (row: number, col: number) => {
         };
 
         const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
+            const piece = boardState[startRow][startCol]
+            const pieceMove = boardState[endRow][endCol]
+            if (piece==="p" || piece==="P") {
+                console.log(piece==="p"|| piece==="P");
+                console.log(startRow-endRow)
+                console.log("sottrazione colonne ",startCol-endCol,startCol,endCol);
+                console.log("true true?? "+(startRow-endRow===1),(startRow-endRow===-1));
+                //pawn capture??
+            //}if ((startRow-endRow>0 || startRow-endRow<0) ){
+              //  return false
+              //}else 
+                 if (pieceMove===null) {
+                    console.log("piece move state",pieceMove)
+                    if (!(startRow-endRow===0)) {
+                        return false;
+                    }
+                    if(startCol-endCol>2) {
+                        console.log("qui");
+                            return false
+                     }
+                    console.log("passo qui")
+
+                }else{
+                    console.log("verify full cell_________________")
+                    console.log((startRow-endRow))
+                    console.log((startCol-endCol))
+
+                    if (!(startRow-endRow===-1 || startRow-endRow===1)) {
+                        return false  
+                    } else{
+                        return true
+                    }
+                }
+           
+      }
+
           return true;
         };
       
         const movePiece = (startRow: number, startCol: number, endRow: number, endCol: number) => {
           const newBoardState = [...boardState];
+          console.log(newBoardState);
           const piece = newBoardState[startRow][startCol];
           newBoardState[startRow][startCol] = null;
           newBoardState[endRow][endCol] = piece;
