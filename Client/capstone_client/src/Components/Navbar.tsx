@@ -3,9 +3,9 @@ import Navbar from 'react-bootstrap/Navbar';
 
 const NavbarTop:React.FC = () =>{
   return (
-    <Navbar expand="lg" className="bg-dark text-white topBar">
-         <Container className="bg-dark">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+    <Navbar expand="lg" className="bg-dark topBar">
+         <Container>
+        <Navbar.Brand href="#home">ChillChess</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
