@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/board.css"
+import "./assets.componets.style/board.css"
 import Square from "./Square";
 //white pieces
 const wPawn:string="https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg"

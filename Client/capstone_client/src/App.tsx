@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import Chessgame from './Components/Chessgame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavbarTop from './Components/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Home from './Components/Home';
 
 function App() {
   return (
@@ -13,7 +13,9 @@ function App() {
     <BrowserRouter>
         <NavbarTop />
       <Routes>
-        <Route path="*" element={<Chessgame />}>
+        <Route path="*" element={<Home />}>
+        </Route>
+        <Route path="43" element={<Home />}>
         </Route>
       </Routes>
     </BrowserRouter>
