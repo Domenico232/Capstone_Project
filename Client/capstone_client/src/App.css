@@ -3,4 +3,10 @@
   height: 100vh;
   place-content: center;
 }
+body{
+
+  background-image: url("./Components/images/40385.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 

@@ -19,8 +19,8 @@ const bQueen:string="https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_q
 
 
 const ChessGame: React.FC = () => {
-   const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
-        // Inizializzazione della scacchiera
+    const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
+       // Starting Chessboard
         ["R", "P", null, null, null, null, "p", "r"],
         ["N", "P", null, null, null, null, "p", "n"],
         ["B", "P", null, null, null, null, "p", "b"],
@@ -32,6 +32,17 @@ const ChessGame: React.FC = () => {
       ]);
   
     const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
+    const isItFirstTime : Array<Array<boolean | null>> =[
+       // Starting Chessboard pawns
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+        [null, false, null, null, null, null, false,null],
+    ];
   
     const handleSquareClick = (row: number, col: number) => {
         console.log(row,col)
@@ -107,42 +118,50 @@ const renderSquare = (row: number, col: number) => {
             const piece = boardState[startRow][startCol]
             const pieceMove = boardState[endRow][endCol]
             if (piece==="p") {
-                 if (pieceMove===null) {
-                    if (!(startRow-endRow===0)) {
-                        return false;
-                    }
-                    if(startCol-endCol>2) {
-                            return false
-                     }
-                     if (endCol>startCol) {
-                        return false
-                     }
-                     //if pawn go on populated cell
-                }else{
-                    console.log("verify full cell_________________")
-                    console.log((startRow-endRow))
-                    console.log("&&")
-                    console.log((startCol-endCol))
-
-                    if (!(startRow-endRow===-1 && startCol-endCol===1)) {
-                        if ((startRow-endRow===1 && startCol-endCol===1)) {
-                            return true
+                    if (pieceMove===null) {
+                        if (!(startRow-endRow===0)) {
+                            return false;
                         }
-                        return false     
-                    } 
-                    
-                }
+                        if (endCol>startCol) {
+                            return false
+                        }
+                        if (isItFirstTime[startRow][startCol]===false) {
+                            
+                            if(startCol-endCol>2) {
+                                return false
+                            }
+                            isItFirstTime[startRow][startCol]=true;
+                        } else if (startCol-endCol>1){
+                            return false
+                        }
+                        
+                         //if pawn go on populated cell
+                    }else{
+                        console.log("verify full cell_________________")
+                        console.log((startRow-endRow))
+                        console.log("&&")
+                        console.log((startCol-endCol))
+    
+                        if (!(startRow-endRow===-1 && startCol-endCol===1)) {
+                            if ((startRow-endRow===1 && startCol-endCol===1)) {
+                                return true
+                            }
+                            return false     
+                        } 
+                        
+                    }
+                
            
       }else if (piece==="P") {
         if (pieceMove===null) {
             if (!(startRow-endRow===0)) {
                 return false;
             }
+            if (endCol<startCol) {
+                return false
+            }
             if(startCol-endCol<-2) {
                     return false
-             }
-             if (endCol<startCol) {
-                return false
              }
              //if pawn go on populated cell
         }else{

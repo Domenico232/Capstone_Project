@@ -24,6 +24,9 @@
     height: 80px;
 }
 .piece:hover{
+    width: 100%;
+    height: 100%;
+    transition-duration: 100ms;
     cursor: grab;
 }
 .piece:active{
