@@ -30,9 +30,8 @@ const ChessGame: React.FC = () => {
         ["N", "P", null, null, null, null, "p", "n"],
         ["R", "P", null, null, null, null, "p", "r"],
       ]);
-  
-    const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
-    const isItFirstTime : Array<Array<boolean | null>> =[
+const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
+const isItFirstTime : Array<Array<boolean | null>> =[
        // Starting Chessboard pawns
         [null, false, null, null, null, null, false,null],
         [null, false, null, null, null, null, false,null],
