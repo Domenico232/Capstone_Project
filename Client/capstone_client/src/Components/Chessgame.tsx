@@ -105,7 +105,7 @@ const renderSquare = (row: number, col: number) => {
 
         const renderBoard = () => {
             const rows = boardState.map((row, rowIndex) => (
-                <div className="row" key={rowIndex}>
+                <div className="chessrow" key={rowIndex}>
               {row.map((_, colIndex) => renderSquare(rowIndex, colIndex))}
 
             </div>

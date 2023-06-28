@@ -1,7 +1,12 @@
 #App {
   display: grid;
   height: 100vh;
+  width: 100vh;
   place-content: center;
+}
+#root{
+  width: 100vh;
+  height: 100vh;
 }
 body{
 

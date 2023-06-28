@@ -3,6 +3,7 @@ import './App.css';
 import Chessgame from './Components/Chessgame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavbarTop from './Components/Navbar';
+import "bootstrap/dist/css/bootstrap.min.css"
 
 
 function App() {

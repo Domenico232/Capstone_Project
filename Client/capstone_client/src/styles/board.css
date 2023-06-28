@@ -1,11 +1,14 @@
 .boardes{
-    display: flex;
-    flex-wrap: wrap;
-    grid-column: auto;
+    display: flex;   
     width: 800px;
     height: 800px;
     background-color: brown;
+    border: 5px solid rgba(165, 140, 58, 0.781);
 }
+ .chessrow{
+    width: 100%;
+    padding: 0;
+ }
 .square.black{
     background-color: rgb(68, 39, 39);
 }
@@ -16,16 +19,16 @@
 .square{
     display: flex;
     justify-content: center;
-    width: 100px;
-    height: 100px;
+    border: solid 1px black;
+    height: 99px;
 }
 .piece{
     width: 80px;
     height: 80px;
 }
 .piece:hover{
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     transition-duration: 100ms;
     cursor: grab;
 }
@@ -34,4 +37,6 @@
 }
 .piece:active{
     background-color: rgba(100, 35, 35, 0.795);
+    background-repeat: repeat;
 }
+
