@@ -6,9 +6,9 @@ const Home:React.FC = () =>{
       <>
       <Row>
         <Col xs md={1} lg={2}></Col>
-        <Col xs={12} md={8} lg={6}><ChessGame /></Col>
-        <Col xs md={3} lg={4} >
-            <div>
+        <Col xs={12} md={7} lg={6}><ChessGame /></Col>
+        <Col xs md={4} lg={4} >
+            <div className="infobox">
 
             </div>
 
