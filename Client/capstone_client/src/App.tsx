@@ -3,8 +3,8 @@ import './App.css';
 import Chessgame from './Components/Chessgame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavbarTop from './Components/Navbar';
-import "bootstrap/dist/css/bootstrap.min.css"
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
   return (
