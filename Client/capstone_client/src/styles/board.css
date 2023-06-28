@@ -32,3 +32,6 @@
 .piece:active{
     cursor: grabbing;
 }
+.piece:active{
+    background-color: rgba(100, 35, 35, 0.795);
+}
