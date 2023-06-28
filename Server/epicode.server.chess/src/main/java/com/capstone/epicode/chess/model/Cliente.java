@@ -1,25 +1,10 @@
 package com.capstone.epicode.chess.model;
 
 import java.time.LocalDate;
-import java.util.List;
-
-import org.hibernate.annotations.CollectionId;
-
-import com.capstone.epicode.chess.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -72,22 +57,6 @@ public class Cliente {
 
 	@Column(name = "telefono_contatto")
 	private String telefonoContatto;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_cliente", nullable = false)
-	private TipoCliente tipoCliente;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "indirizzo_sede_legale_id")
-	private Indirizzo indirizzoSedeLegale;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "indirizzo_sede_operativa_id")
-	private Indirizzo indirizzoSedeOperativa;
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente", cascade = CascadeType.REMOVE)
-	@Column(name = "fatture")
-	private List<Fattura> listafatture;
 
 }
 

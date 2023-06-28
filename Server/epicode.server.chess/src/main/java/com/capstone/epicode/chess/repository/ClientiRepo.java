@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.capstone.epicode.chess.model.Cliente;
-import com.capstone.epicode.chess.model.Fattura;
 @Repository
 public interface ClientiRepo  extends JpaRepository<Cliente, Long> {
 

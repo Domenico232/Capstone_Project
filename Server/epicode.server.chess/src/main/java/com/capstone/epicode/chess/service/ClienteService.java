@@ -1,26 +1,16 @@
 package com.capstone.epicode.chess.service;
 
-import java.lang.StackWalker.Option;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.apache.commons.io.RandomAccessFileMode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
-
-import com.capstone.epicode.chess.enums.TipoCliente;
 import com.capstone.epicode.chess.model.Cliente;
-import com.capstone.epicode.chess.model.Comune;
-import com.capstone.epicode.chess.model.Fattura;
-import com.capstone.epicode.chess.model.Indirizzo;
 import com.capstone.epicode.chess.repository.ClientiRepo;
-import com.capstone.epicode.chess.repository.Indirizzorepo;
+
 import com.github.javafaker.Faker;
 
 import jakarta.persistence.EntityExistsException;
@@ -32,11 +22,7 @@ public class ClienteService{
 	Faker fk = new Faker(new Locale("IT-it"));
 	Random random = new Random();
 	@Autowired
-	ComuneService sc;
-	@Autowired
 	ClientiRepo dbcliente;
-	@Autowired
-	IndirizzoService dbindirizzo;
 	
 	//Creazione CLienti Fake
 	public void Creafake() {
@@ -49,15 +35,11 @@ public class ClienteService{
 		cliente.setEmail(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@gmail.com");
 		cliente.setEmailContatto(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@outlook.com");
 		cliente.setFatturatoAnnuale((long)fk.random().nextInt(5000000));
-		cliente.setIndirizzoSedeLegale(RandomAdress());
 		cliente.setTelefonoContatto(fk.phoneNumber().cellPhone());
 		cliente.setPartitaIva(fk.regexify("[0-9]{11}"));
 		cliente.setRagioneSociale(fk.company().name());
-		cliente.setIndirizzoSedeOperativa(RandomAdress());
 		cliente.setTelefono(fk.phoneNumber().phoneNumber());
 		cliente.setPec(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@pec.com");
-		TipoCliente[] tipiCliente = TipoCliente.values();
-		cliente.setTipoCliente(tipiCliente[random.nextInt(tipiCliente.length)]);
 		dbcliente.save(cliente);
 
 	}
@@ -70,17 +52,6 @@ public class ClienteService{
 	}
 
 	//metodo Generare indirizzi Random
-	private Indirizzo RandomAdress() {
-		Indirizzo indirizzo = new Indirizzo();
-		indirizzo.setCap(fk.address().zipCode());
-		indirizzo.setCivico(fk.address().buildingNumber());
-		List<Comune> listacomuni = sc.GetAllComuni();
-		indirizzo.setComune(sc.getById(random.nextLong(listacomuni.size() - 1)));
-		indirizzo.setLocalita(indirizzo.getComune().getNome());
-		indirizzo.setVia(fk.address().streetAddress());
-		//dbindirizzo.Save(indirizzo);
-		return indirizzo;
-	}
 	
 	//Ricerca tutti clienti
 	public List<Cliente> getAll(){
