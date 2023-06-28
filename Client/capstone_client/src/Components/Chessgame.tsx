@@ -110,7 +110,7 @@ const renderSquare = (row: number, col: number) => {
 
             </div>
           ));
-          return <div className="board">{rows}</div>;
+          return <div className="boardes">{rows}</div>;
         };
 
         const isMoveValid = (startRow: number, startCol: number, endRow: number, endCol: number) => {
