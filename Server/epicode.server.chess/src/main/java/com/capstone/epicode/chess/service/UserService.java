@@ -53,15 +53,6 @@ public class UserService{
 		}
 		return dbUser.save(user);
 	}
-
-	//Modifica Cliente
-	public Optional<?> putCliente(User user, long id) {
-		if(!dbUser.existsById(id)) {
-			throw new EntityNotFoundException("User non esiste");
-		}else {
-			return Optional.of(dbUser.save(user));
-		}
-	}
 	
 	//Cancellazione Cliente
 	public String deleteUser(Long id){
@@ -70,6 +61,14 @@ public class UserService{
 		}
 		dbUser.deleteById(id);
 		return "User Cancellato";
+	}
+
+	public User putCliente(long id, User user) {
+		//if(!dbUser.existsById(id)) {
+			//throw new EntityNotFoundException("User non esiste");
+		//}else {
+			return dbUser.save(user);
+		//}
 	}
 
 		

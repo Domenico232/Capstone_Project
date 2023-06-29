@@ -55,13 +55,14 @@ public class SecurityConfig {
 
     	http.cors().and().csrf().disable()
         .authorizeHttpRequests((authorize) -> authorize
-        		.requestMatchers("/api/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated())
+            .requestMatchers("/api/**").permitAll()
+            .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/chessboard").permitAll() // Aggiungi questa riga
+            .anyRequest().authenticated())
         .exceptionHandling( exception -> exception
-                .authenticationEntryPoint(authenticationEntryPoint)
+            .authenticationEntryPoint(authenticationEntryPoint)
         ).sessionManagement( session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
     	http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
