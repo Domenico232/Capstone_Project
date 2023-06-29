@@ -68,33 +68,32 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         [null, false, null, null, null, null, false,null],
     ];
 
-    const fetchOppoMove = async (id:number) =>{
+    const fetchOppoMove = async (id: number) => {
         const response = await fetch(`http://localhost:8080/chessboard/${id}`);
-        const jsonData : ChessMoveData = await response.json();
+        const jsonData: ChessMoveData = await response.json();
         console.log(jsonData);
-        console.log("pezzo row, pezzo col + move row, move col "+jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
-        fakeMove(jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
-    }
-
-    const goOn = () =>{
-        fetchOppoMove(1)
-    }
-
-    const fakeMove = (row:number, col:number, newRow: number, newCol:number) =>{
-        setSelectedPiece({row,col});
-        handleSquareClick(newRow, newCol);
-    }
-    
-
-    const handleSquareClick = (row: number, col: number) => {
+        console.log("pezzo row, pezzo col + move row, move col " + jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol);
+        fakeMove(jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol);
+      };
+      
+      const goOn = () => {
+        fetchOppoMove(1);
+      };
+      
+      const fakeMove = (row: number, col: number, newRow: number, newCol: number) => {
+        setSelectedPiece({ row, col });
+        handleSquareClick(newRow, newCol, { row, col }); // Passa il selectedPiece come argomento
+      };
+      
+      const handleSquareClick = (row: number, col: number, selectedPiece?: { row: number, col: number }) => {
         console.log(row, col);
-        console.log(selectedPiece);
-        
+        console.log(selectedPiece || selectedPiece); // Utilizza il selectedPiece passato come argomento
+      
         if (selectedPiece) {
           if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
             movePiece(selectedPiece.row, selectedPiece.col, row, col);
-        }
-        setSelectedPiece(null); 
+          }
+          setSelectedPiece(null);
         } else {
           const piece = boardState[row][col];
           console.log(piece);
