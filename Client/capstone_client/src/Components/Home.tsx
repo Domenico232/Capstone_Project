@@ -5,9 +5,8 @@ const Home:React.FC = () =>{
     return (
       <>
       <Row>
-        <Col xs md={1} lg={2}></Col>
         <Col xs={12} md={7} lg={6}><ChessGame /></Col>
-        <Col xs md={4} lg={4} >
+        <Col xs={12} md={12} lg={4} >
             <div className="infobox">
 
             </div>

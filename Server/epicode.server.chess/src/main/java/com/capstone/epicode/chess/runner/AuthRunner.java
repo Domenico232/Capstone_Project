@@ -16,7 +16,6 @@ import com.capstone.epicode.chess.repository.RoleRepository;
 import com.capstone.epicode.chess.repository.UserRepository;
 import com.capstone.epicode.chess.service.AuthService;
 import com.capstone.epicode.chess.service.AuthServiceImpl;
-import com.capstone.epicode.chess.service.ClienteService;
 
 @Component
 public class AuthRunner implements ApplicationRunner {
@@ -29,8 +28,6 @@ public class AuthRunner implements ApplicationRunner {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	AuthService authService;
-	@Autowired
-	ClienteService cliservice;
 	private Set<Role> adminRole;
 	private Set<Role> moderatorRole;
 	private Set<Role> userRole;
@@ -42,8 +39,7 @@ public class AuthRunner implements ApplicationRunner {
 		// Serve per salvare i ruoli nel DB
 		setRoleDefault();
 
-		Creaclienti(25);
-		
+		createadmin();
 		//System.out.println(dbFattura.findBystatofattura(StatoFattura.CONSEGNATO));
 		//System.out.println(dbFattura.findBystatofattura(StatoFattura.ACCETTATO));
 		//System.out.println(dbFattura.findBystatofattura(StatoFattura.CARICATO));
@@ -79,12 +75,6 @@ public class AuthRunner implements ApplicationRunner {
 //		userRole.add(user);
 	}
 
-
-	public void Creaclienti(int clienticrea) {
-		for (int i = 0; i < clienticrea; i++) {
-			cliservice.Creafake();
-		}
-	}
 	
 public void createadmin() {
 	RegisterDto admin = new RegisterDto();
@@ -96,6 +86,7 @@ public void createadmin() {
 	admin.setPassword("admin");
 	admin.setRoles(ruolo);
 	admin.setUsername("admin");
+	admin.setNationality("Italiana");
 	auth.register(admin);
 }
 }

@@ -3,11 +3,9 @@ package com.capstone.epicode.chess.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +31,13 @@ public class User {
     private String password;
     @Column(nullable = false, name = "last_name")
     private String lastName;
-    
+    @Column(name = "data_inserimento")
+	private LocalDate dataInserimento = LocalDate.now();
+    @Column(name = "elo")
+	private Integer elo = 800;
+	@Column(name = "nationality")
+	private String nationality;
+
     
     // Il caricamento EAGER delle raccolte significa che vengono recuperate 
     // completamente nel momento in cui viene recuperato il loro genitore

@@ -8,9 +8,9 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.capstone.epicode.chess.model.Cliente;
-import com.capstone.epicode.chess.repository.ClientiRepo;
 
+import com.capstone.epicode.chess.entity.User;
+import com.capstone.epicode.chess.repository.UserRepository;
 import com.github.javafaker.Faker;
 
 import jakarta.persistence.EntityExistsException;
@@ -18,31 +18,11 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 
-public class ClienteService{
+public class UserService{
 	Faker fk = new Faker(new Locale("IT-it"));
 	Random random = new Random();
 	@Autowired
-	ClientiRepo dbcliente;
-	
-	//Creazione CLienti Fake
-	public void Creafake() {
-
-		Cliente cliente = new Cliente();
-		cliente.setNomeContatto(fk.name().firstName());
-		cliente.setCognomeContatto(fk.name().lastName());
-		cliente.setDataInserimento(getRandomDateBetween(LocalDate.of(2002, 01, 01), LocalDate.now()));
-		cliente.setDataUltimoContatto(getRandomDateBetween(LocalDate.of(2005, 01, 01), LocalDate.now()));
-		cliente.setEmail(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@gmail.com");
-		cliente.setEmailContatto(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@outlook.com");
-		cliente.setFatturatoAnnuale((long)fk.random().nextInt(5000000));
-		cliente.setTelefonoContatto(fk.phoneNumber().cellPhone());
-		cliente.setPartitaIva(fk.regexify("[0-9]{11}"));
-		cliente.setRagioneSociale(fk.company().name());
-		cliente.setTelefono(fk.phoneNumber().phoneNumber());
-		cliente.setPec(cliente.getCognomeContatto() + "." + cliente.getNomeContatto() + "@pec.com");
-		dbcliente.save(cliente);
-
-	}
+	UserRepository dbUser;
 
 	//metodo Generare date Random
 	public  LocalDate getRandomDateBetween(LocalDate startDate, LocalDate endDate) {
@@ -53,105 +33,45 @@ public class ClienteService{
 
 	//metodo Generare indirizzi Random
 	
-	//Ricerca tutti clienti
-	public List<Cliente> getAll(){
-		return dbcliente.findAll();
+	//Ricerca tutti User
+	public List<User> getAll(){
+		return dbUser.findAll();
 	}
 	
-	//Ricerca cliente per Id
-	public Cliente getById(Long id) {
-		if(!dbcliente.existsById(id)) {
-			throw new EntityNotFoundException("Cliente non presente nel DataBase!");
+	//Ricerca User per Id
+	public User getById(Long id) {
+		if(!dbUser.existsById(id)) {
+			throw new EntityNotFoundException("User non presente nel DataBase!");
 		}
-		return dbcliente.findById(id).get();
+		return dbUser.findById(id).get();
 	}
 	
-	//Aggiunta Nuovo Cliente
-	public Cliente addCliente(Cliente cliente) {
-		if(dbcliente.existsByEmail(cliente.getEmail())) {
+	//Aggiunta Nuovo User
+	public User addCliente(User user) {
+		if(dbUser.existsByEmail(user.getEmail())) {
 			throw new EntityExistsException("Email già presente nel DataBase!");		
 		}
-		if(dbcliente.existsByEmailContatto(cliente.getEmailContatto())) {
-			throw new EntityExistsException("EmailContatto già presente nel DataBase!");		
-		}
-		if(dbcliente.existsByPartitaIva(cliente.getPartitaIva())) {
-			throw new EntityExistsException("Partita IVA già presente nel DataBase!");		
-		}
-		if(dbcliente.existsByPec(cliente.getPec())) {
-			throw new EntityExistsException("Pec già presente nel DataBase!");		
-		}
-		if(dbcliente.existsByTelefono(cliente.getTelefono())) {
-			throw new EntityExistsException("Telefono già presente nel DataBase!");		
-		}
-		if(dbcliente.existsByTelefonoContatto(cliente.getTelefonoContatto())) {
-			throw new EntityExistsException("Telefono Contatto già presente nel DataBase!");		
-		}
-		
-		return dbcliente.save(cliente);
+		return dbUser.save(user);
 	}
 
 	//Modifica Cliente
-	public Optional<?> putCliente(Cliente cliente, long id) {
-		if(!dbcliente.existsById(id)) {
-			throw new EntityNotFoundException("Cliente non esiste");
+	public Optional<?> putCliente(User user, long id) {
+		if(!dbUser.existsById(id)) {
+			throw new EntityNotFoundException("User non esiste");
 		}else {
-			return Optional.of(dbcliente.save(cliente));
+			return Optional.of(dbUser.save(user));
 		}
 	}
 	
 	//Cancellazione Cliente
-	public String deleteCliente(Long id){
-		if(!dbcliente.existsById(id)) {
-			throw new EntityNotFoundException("Cliente non esiste");
+	public String deleteUser(Long id){
+		if(!dbUser.existsById(id)) {
+			throw new EntityNotFoundException("User non esiste");
 		}
-		dbcliente.deleteById(id);
-		return "Cliente Cancellato";
+		dbUser.deleteById(id);
+		return "User Cancellato";
 	}
-	
-	//Ordinamento
-	
-	//Ordinamento Nome Cliente per ASC
-	public List<Cliente> orderByNameAsc(){
-		return dbcliente.OrderByNomeContattoAsc();
-	}
-	
-	//Ordinamento per Fattura annuale
-	public List<Cliente> orderByFatturaAnnuale(){
-		return dbcliente.OrderByFatturatoAnnualeAsc();
-	}
-	
-	//Ordinamento per Data Inserimento
-	public List<Cliente> OrderByDataInserimentoAsc(){
-		return dbcliente.OrderByDataInserimentoAsc();
-	}
-	
-	//Ordinamento Sede Legale per Provincia
-	public List<Cliente> orderByIndirizzoSedeLegaleForProvincia(){
-		return dbcliente.orderBySedeLegaleProvincia();
-	}
-	
-	
-	//Filter
-	
-	//Ricerca per Fattura Annuale
-		public List<Cliente> findByFatturatoAnnuale(long fatturato){
-			return dbcliente.findByFatturatoAnnuale(fatturato);
-		}
-		
-	//Riceraca per Data inserimento
-		public List<Cliente> findByDataInserimento(LocalDate data){
-			return dbcliente.findByDataInserimento(data);
-		}
-		
-	//Ricerca per Data ultimo contatto	
-		public List<Cliente> findByDataUltimoContatto(LocalDate data){
-			return dbcliente.findByDataUltimoContatto(data);
-		}
-		
-	//Ricerca per parte del Nome	
-		public List<Cliente> filterByPartialName(String parteDelNome){
-			return dbcliente.findByNomeContattoContainingIgnoreCase(parteDelNome);
-		}
+
 		
 		
 }

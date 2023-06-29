@@ -8,7 +8,6 @@ const wBishop:string="https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_
 const wRook:string="https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg";
 const wKing:string="https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg";
 const wQueen:string="https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg";
-
 //black pieces
 const bPawn:string="https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt45.svg"
 const bKnight:string="https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg";
@@ -42,22 +41,37 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         [null, false, null, null, null, null, false,null],
         [null, false, null, null, null, null, false,null],
     ];
-  
-    const handleSquareClick = (row: number, col: number) => {
-        console.log(row,col)
-      if (selectedPiece) {
-        if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
-          movePiece(selectedPiece.row, selectedPiece.col, row, col);
-        }
-        setSelectedPiece(null);
-      } else {
-        const piece = boardState[row][col];
-        console.log(piece)
-        if (piece !== null) {
-          setSelectedPiece({ row, col });
-        }
+
+    const goOn = () =>{
+
+            fakeMove(1,1);
+            fakeMove(1,2);
+       
+
     }
-};
+
+    const fakeMove = (newRow: number, newCol:number) =>{
+        handleSquareClick(newRow, newCol);
+    }
+    
+
+    const handleSquareClick = (row: number, col: number) => {
+        console.log(row, col);
+        console.log(selectedPiece);
+        
+        if (selectedPiece) {
+          if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
+            movePiece(selectedPiece.row, selectedPiece.col, row, col);
+        }
+        setSelectedPiece(null); 
+        } else {
+          const piece = boardState[row][col];
+          console.log(piece);
+          if (piece !== null) {
+            setSelectedPiece({ row, col });
+          }
+        }
+      };
 
 console.log("BOARDSTATE "+boardState);
 
@@ -190,11 +204,13 @@ const renderSquare = (row: number, col: number) => {
           newBoardState[endRow][endCol] = piece;
           setBoardState(newBoardState);
         };
-        
-  
+
+
+
+
     return (
       <div className="chess-game">
-        <h1>Chess Game</h1>
+        <h1 onClick={goOn}>Chess Game</h1>
         {renderBoard()}
       </div>
     );
