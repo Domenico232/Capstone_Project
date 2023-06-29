@@ -72,7 +72,7 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         const response = await fetch(`http://localhost:8080/chessboard/${id}`);
         const jsonData : ChessMoveData = await response.json();
         console.log(jsonData);
-        console.log("pezzo row, pezzo col + move row, move col"+jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
+        console.log("pezzo row, pezzo col + move row, move col "+jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
         fakeMove(jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
     }
 
