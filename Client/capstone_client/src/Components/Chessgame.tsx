@@ -15,7 +15,33 @@ const bBishop:string="https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_
 const bRook:string="https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg";
 const bKing:string="https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen:string="https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
-
+interface ChessMoveData {
+    id: number;
+    primo: ChessPlayer;
+    piecerow: number;
+    piececol: number;
+    moverow: number;
+    movecol: number;
+    secondo: ChessPlayer;
+  }
+  
+  interface ChessPlayer {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    lastName: string;
+    dataInserimento: string;
+    elo: number;
+    nationality: string;
+    roles: UserRole[];
+  }
+  
+  interface UserRole {
+    id: number;
+    roleName: string;
+  }
 
 const ChessGame: React.FC = () => {
     const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
@@ -44,15 +70,18 @@ const isItFirstTime : Array<Array<boolean | null>> =[
 
     const fetchOppoMove = async (id:number) =>{
         const response = await fetch(`http://localhost:8080/chessboard/${id}`);
-  const jsonData = await response.json();
-  console.log(jsonData);
+        const jsonData : ChessMoveData = await response.json();
+        console.log(jsonData);
+        console.log("pezzo row, pezzo col + move row, move col"+jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
+        fakeMove(jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol)
     }
 
     const goOn = () =>{
         fetchOppoMove(1)
     }
 
-    const fakeMove = (newRow: number, newCol:number) =>{
+    const fakeMove = (row:number, col:number, newRow: number, newCol:number) =>{
+        setSelectedPiece({row,col});
         handleSquareClick(newRow, newCol);
     }
     

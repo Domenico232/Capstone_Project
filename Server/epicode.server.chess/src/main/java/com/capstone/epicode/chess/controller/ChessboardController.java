@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chessboard")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ChessboardController {
 
     @Autowired ChessboardService chessboardService;
