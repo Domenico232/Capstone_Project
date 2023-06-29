@@ -42,12 +42,14 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         [null, false, null, null, null, null, false,null],
     ];
 
-    const fetchOppoMove = async () =>{
-
+    const fetchOppoMove = async (id:number) =>{
+        const response = await fetch(`http://localhost:8080/chessboard/${id}`);
+  const jsonData = await response.json();
+  console.log(jsonData);
     }
 
     const goOn = () =>{
-        fetchOppoMove()
+        fetchOppoMove(1)
     }
 
     const fakeMove = (newRow: number, newCol:number) =>{
