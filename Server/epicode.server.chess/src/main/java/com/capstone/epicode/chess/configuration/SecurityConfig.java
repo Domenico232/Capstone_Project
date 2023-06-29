@@ -1,6 +1,7 @@
 package com.capstone.epicode.chess.configuration;
 
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -58,6 +59,7 @@ public class SecurityConfig {
             .requestMatchers("/api/**").permitAll()
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/chessboard").permitAll() // Aggiungi questa riga
+            .requestMatchers("chessboard/{id}").permitAll()
             .anyRequest().authenticated())
         .exceptionHandling( exception -> exception
             .authenticationEntryPoint(authenticationEntryPoint)

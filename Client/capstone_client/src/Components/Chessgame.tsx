@@ -42,12 +42,12 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         [null, false, null, null, null, null, false,null],
     ];
 
+    const fetchOppoMove = async () =>{
+
+    }
+
     const goOn = () =>{
-
-            fakeMove(1,1);
-            fakeMove(1,2);
-       
-
+        fetchOppoMove()
     }
 
     const fakeMove = (newRow: number, newCol:number) =>{
