@@ -35,7 +35,7 @@ const RegisterPage: React.FC = () => {
         console.log(data);
       })
       .catch((error) => {
-        // Gestisci gli errori
+        console.log("non funziona",formData)
         console.error(error);
       });
   };

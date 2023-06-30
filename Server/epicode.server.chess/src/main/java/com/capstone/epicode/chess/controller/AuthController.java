@@ -16,7 +16,6 @@ import com.capstone.epicode.chess.service.AuthService;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -41,6 +40,7 @@ public class AuthController {
     }
 
     // Build Register REST API
+    @CrossOrigin(origins = "*", maxAge = 3600)
     @PostMapping(value = {"/register", "/signup"})
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
