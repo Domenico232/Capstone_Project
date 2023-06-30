@@ -11,11 +11,14 @@ import org.springframework.stereotype.Component;
 
 import com.capstone.epicode.chess.entity.ERole;
 import com.capstone.epicode.chess.entity.Role;
+import com.capstone.epicode.chess.entity.User;
+import com.capstone.epicode.chess.model.Chessboard;
 import com.capstone.epicode.chess.payload.RegisterDto;
 import com.capstone.epicode.chess.repository.RoleRepository;
 import com.capstone.epicode.chess.repository.UserRepository;
 import com.capstone.epicode.chess.service.AuthService;
 import com.capstone.epicode.chess.service.AuthServiceImpl;
+import com.capstone.epicode.chess.service.ChessboardService;
 
 @Component
 public class AuthRunner implements ApplicationRunner {
@@ -28,6 +31,8 @@ public class AuthRunner implements ApplicationRunner {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	AuthService authService;
+	@Autowired
+	ChessboardService cs;
 	private Set<Role> adminRole;
 	private Set<Role> moderatorRole;
 	private Set<Role> userRole;
@@ -88,5 +93,32 @@ public void createadmin() {
 	admin.setUsername("admin");
 	admin.setNationality("Italiana");
 	auth.register(admin);
+	
+	RegisterDto player = new RegisterDto();
+	Set<String> role=new HashSet<String>();
+	ruolo.add("USER");
+	player.setEmail("player@gmail.com");
+	player.setLastName("player");
+	player.setName("player");
+	player.setPassword("player");
+	player.setRoles(role);
+	player.setUsername("player");
+	player.setNationality("Italiana");
+	auth.register(player);
+	
+	User user1 = userRepository.findById(1);
+	User user2 = userRepository.findById(2);
+	System.out.println(user1);
+	Chessboard chessBoard = new Chessboard();
+	chessBoard.setPrimo(user1);
+	chessBoard.setSecondo(user2);
+	chessBoard.setMovecol(2);
+	chessBoard.setMoverow(1);
+	chessBoard.setPiececol(1);
+	chessBoard.setPiecerow(1);
+	cs.addBoard(chessBoard);
+	
 }
+
+
 }

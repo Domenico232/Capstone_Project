@@ -5,6 +5,7 @@ import NavbarTop from './Components/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from './Components/Home';
+import LoginPage from './Components/RegisterPage';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
     <BrowserRouter>
         <NavbarTop />
       <Routes>
-        <Route path="*" element={<Home />}>
+        <Route path="*" element={<LoginPage />}>
         </Route>
         <Route path="43" element={<Home />}>
         </Route>

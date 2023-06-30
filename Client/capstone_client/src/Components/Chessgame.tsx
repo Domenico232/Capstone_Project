@@ -55,7 +55,7 @@ const ChessGame: React.FC = () => {
         ["N", "P", null, null, null, null, "p", "n"],
         ["R", "P", null, null, null, null, "p", "r"],
       ]);
-const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
+const [selectedPieces, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
 const isItFirstTime : Array<Array<boolean | null>> =[
        // Starting Chessboard pawns
         [null, false, null, null, null, null, false,null],
@@ -75,6 +75,8 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         console.log("pezzo row, pezzo col + move row, move col " + jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol);
         fakeMove(jsonData.piecerow, jsonData.piececol, jsonData.moverow, jsonData.movecol);
       };
+
+      
       
       const goOn = () => {
         fetchOppoMove(1);
@@ -89,9 +91,9 @@ const isItFirstTime : Array<Array<boolean | null>> =[
         console.log(row, col);
         console.log(selectedPiece || selectedPiece); // Utilizza il selectedPiece passato come argomento
       
-        if (selectedPiece) {
-          if (isMoveValid(selectedPiece.row, selectedPiece.col, row, col)) {
-            movePiece(selectedPiece.row, selectedPiece.col, row, col);
+        if (selectedPieces) {
+          if (isMoveValid(selectedPieces.row, selectedPieces.col, row, col)) {
+            movePiece(selectedPieces.row, selectedPieces.col, row, col);
           }
           setSelectedPiece(null);
         } else {
@@ -102,6 +104,8 @@ const isItFirstTime : Array<Array<boolean | null>> =[
           }
         }
       };
+
+      
 
 console.log("BOARDSTATE "+boardState);
 

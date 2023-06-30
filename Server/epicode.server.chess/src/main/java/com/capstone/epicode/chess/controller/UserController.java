@@ -28,12 +28,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAll();
-        if (!users.isEmpty()) {
-            return ResponseEntity.ok(users);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
+         
+            return ResponseEntity.ok(userService.getAll());
     }
 
     @GetMapping("/{id}")

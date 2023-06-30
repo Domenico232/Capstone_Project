@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,11 +25,6 @@ public class Chessboard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
-	
-	
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn( name = "player_1")
-    private User primo;
     
     @Column( name = "row_piece")
     private int piecerow;
@@ -39,8 +35,12 @@ public class Chessboard {
     @Column( name = "col_move")
     private int movecol;
    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn( name = "player_2")
+    @ManyToOne
+    @JoinColumn(name = "primo_id")
+    private User primo;
+
+    @ManyToOne
+    @JoinColumn(name = "secondo_id")
     private User secondo;
     
 }
