@@ -2,27 +2,19 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-interface RegisterDto {
-  name: string;
+interface LoginDto {
   username: string;
-  email: string;
   password: string;
-  lastName: string;
-  nationality: string;
 }
 
-const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState<RegisterDto>({
-    name: '',
+const LoginPage: React.FC = () => {
+  const [formData, setFormData] = useState<LoginDto>({
     username: '',
-    email: '',
     password: '',
-    lastName: '',
-    nationality: '',
   });
 
-  const handleRegister = () => {
-    fetch('http://localhost:8080/api/auth/register', {
+  const handleLogin = () => {
+    fetch('http://localhost:8080/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,16 +25,11 @@ const RegisterPage: React.FC = () => {
       .then((data) => {
         console.log(data);
         setFormData({
-          name: '',
           username: '',
-          email: '',
           password: '',
-          lastName: '',
-          nationality: '',
         });
       })
       .catch((error) => {
-        console.log("non funziona",formData)
         console.error(error);
       });
   };
@@ -57,7 +44,7 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleRegister();
+    handleLogin();
   };
 
   return (
@@ -65,26 +52,11 @@ const RegisterPage: React.FC = () => {
       <Col sm={2} lg={4} md={3} />
 
       <Col sm={8} lg={4} md={6}>
-        <h1>Register</h1>
+        <h1>Login</h1>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="name">
-            <Form.Label>Name:</Form.Label>
-            <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
-          </Form.Group>
-
-          <Form.Group controlId="lastName">
-            <Form.Label>Last Name:</Form.Label>
-            <Form.Control type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
-          </Form.Group>
-
           <Form.Group controlId="username">
             <Form.Label>Username:</Form.Label>
             <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} required />
-          </Form.Group>
-
-          <Form.Group controlId="email">
-            <Form.Label>Email:</Form.Label>
-            <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
           </Form.Group>
 
           <Form.Group controlId="password">
@@ -92,21 +64,15 @@ const RegisterPage: React.FC = () => {
             <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
           </Form.Group>
 
-          <Form.Group controlId="nationality">
-            <Form.Label>Nationality:</Form.Label>
-            <Form.Control type="text" name="nationality" value={formData.nationality} onChange={handleChange} required />
-          </Form.Group>
-
           <Button variant="primary" type="submit">
-            Register
+            Login
           </Button>
-          <Link to="/Login">Arledy registered?</Link>
+          <Link to="/register">Not registered yet?</Link>
         </Form>
-
       </Col>
       <Col sm={2} lg={4} md={3} />
     </Row>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
