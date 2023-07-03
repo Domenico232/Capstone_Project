@@ -5,7 +5,7 @@ import NavbarTop from './Components/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from './Components/Home';
-import LoginPage from './Components/RegisterPage';
+import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 
 function App() {
@@ -15,8 +15,9 @@ function App() {
     <BrowserRouter>
         <NavbarTop />
       <Routes>
-      <Route path="Register" element={<RegisterPage />} />
-        <Route path="Login" element={<LoginPage />} />
+      <Route path="RegisterPage" element={<RegisterPage />}>
+        </Route>
+        <Route path="LoginPage" element={<LoginPage />}></Route>
         <Route path="*" element={<Home />}>
         </Route>
       </Routes>

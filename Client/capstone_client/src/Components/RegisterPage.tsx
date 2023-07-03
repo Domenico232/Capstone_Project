@@ -64,7 +64,7 @@ const RegisterPage: React.FC = () => {
     <Row className='formStyle'>
       <Col sm={2} lg={4} md={3} />
 
-      <Col sm={8} lg={4} md={6}>
+      <Col sm={8} lg={4} md={6} >
         <h1>Register</h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="name">
@@ -100,7 +100,7 @@ const RegisterPage: React.FC = () => {
           <Button variant="primary" type="submit">
             Register
           </Button>
-          <Link to="/Login">Arledy registered?</Link>
+          <Link to="/LoginPage">Arledy registered?</Link>
         </Form>
 
       </Col>

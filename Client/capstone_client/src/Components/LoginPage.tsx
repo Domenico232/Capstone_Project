@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface LoginDto {
   username: string;
   password: string;
 }
+interface TokenData{
+    accessToken : String
+    tokenType : String
+    username : String
 
+}
 const LoginPage: React.FC = () => {
+    const navigate = useNavigate();
+    const [tokenData, setTokenData] = useState<TokenData>();
   const [formData, setFormData] = useState<LoginDto>({
     username: '',
     password: '',
@@ -24,10 +31,13 @@ const LoginPage: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        setTokenData(data);
         setFormData({
           username: '',
           password: '',
         });
+        localStorage.setItem('token', data.accessToken);
+        navigate('/');
       })
       .catch((error) => {
         console.error(error);
@@ -67,7 +77,7 @@ const LoginPage: React.FC = () => {
           <Button variant="primary" type="submit">
             Login
           </Button>
-          <Link to="/register">Not registered yet?</Link>
+          <Link to="/RegisterPage">Not registered yet?</Link>
         </Form>
       </Col>
       <Col sm={2} lg={4} md={3} />
