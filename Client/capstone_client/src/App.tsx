@@ -15,10 +15,10 @@ function App() {
     <BrowserRouter>
         <NavbarTop />
       <Routes>
-      <Route path="RegisterPage" element={<RegisterPage />}>
+      <Route path="*" element={<RegisterPage />}>
         </Route>
         <Route path="LoginPage" element={<LoginPage />}></Route>
-        <Route path="*" element={<Home />}>
+        <Route path="Home" element={<Home />}>
         </Route>
       </Routes>
     </BrowserRouter>

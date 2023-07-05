@@ -6,15 +6,8 @@ interface LoginDto {
   username: string;
   password: string;
 }
-interface TokenData{
-    accessToken : String
-    tokenType : String
-    username : String
-
-}
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
-    const [tokenData, setTokenData] = useState<TokenData>();
   const [formData, setFormData] = useState<LoginDto>({
     username: '',
     password: '',
@@ -31,13 +24,12 @@ const LoginPage: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setTokenData(data);
         setFormData({
           username: '',
           password: '',
         });
         localStorage.setItem('token', data.accessToken);
-        navigate('/');
+        navigate('/Home', { state: { parametro: data.username} });
       })
       .catch((error) => {
         console.error(error);
