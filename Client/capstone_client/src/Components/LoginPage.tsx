@@ -29,7 +29,8 @@ const LoginPage: React.FC = () => {
           password: '',
         });
         localStorage.setItem('token', data.accessToken);
-        navigate('/Home', { state: { parametro: data.username} });
+        console.log(data.username)
+        navigate(`/Home/${data.username}`);
       })
       .catch((error) => {
         console.error(error);

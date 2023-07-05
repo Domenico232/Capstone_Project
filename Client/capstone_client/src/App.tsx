@@ -18,7 +18,7 @@ function App() {
       <Route path="*" element={<RegisterPage />}>
         </Route>
         <Route path="LoginPage" element={<LoginPage />}></Route>
-        <Route path="Home" element={<Home />}>
+        <Route path="Home/:parametroNome" element={<Home />}>
         </Route>
       </Routes>
     </BrowserRouter>
