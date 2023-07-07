@@ -1,45 +1,85 @@
-.boardes{
-    display: flex;   
+.boardes {
+    display: flex;
     width: 800px;
     height: 800px;
     background-color: brown;
     border: 5px solid rgba(165, 140, 58, 0.781);
-}
-.chess-game{
+  }
+  
+  .chess-game {
     margin-top: 50px;
-}
- .chessrow{
+  }
+  
+  .chessrow {
     width: 100%;
     padding: 0;
- }
-.square.black{
+  }
+  
+  .square.black {
     background-color: rgb(68, 39, 39);
-}
-
-.square.white{
+  }
+  
+  .square.white {
     background-color: rgb(240, 235, 235);
-}
-.square{
+  }
+  
+  .square {
     display: flex;
     justify-content: center;
     border: solid 1px black;
+    width: 100%;
     height: 99px;
-}
-.piece{
+  }
+  
+  .piece {
     width: 80px;
     height: 80px;
-}
-.piece:hover{
+  }
+  
+  .piece:hover {
     width: 90%;
     height: 90%;
     transition-duration: 100ms;
     cursor: grab;
-}
-.piece:active{
+  }
+  
+  .piece:active {
     cursor: grabbing;
-}
-.piece:active{
+  }
+  
+  .piece:active {
     background-color: rgba(100, 35, 35, 0.795);
     background-repeat: repeat;
-}
+  }
+  
+ 
 
+  @media (max-width: 756px) {
+    .boardes {
+      margin-left: 0vh;
+      width: 600px;
+      height: auto;
+      max-width: 550px;
+      padding: 10px;
+      background-color: rgba(165, 140, 58, 0.781);
+      box-sizing: border-box;
+    }
+  
+    .chess-game {
+      margin-top: 30px;
+    }
+  
+    .square {
+      height: 65px;
+    }
+  
+    .piece {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .piece:hover {
+      width: 90%;
+      height: 90%;
+    }
+  }
