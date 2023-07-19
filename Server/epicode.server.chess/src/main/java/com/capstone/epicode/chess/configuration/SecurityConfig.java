@@ -1,5 +1,6 @@
 package com.capstone.epicode.chess.configuration;
 
+import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.capstone.epicode.chess.security.JwtAuthenticationEntryPoint;
 import com.capstone.epicode.chess.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
-
 public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
@@ -47,26 +50,42 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+    @SuppressWarnings("removal")
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    	http.cors().and().csrf().disable()
-        .authorizeHttpRequests((authorize) -> authorize
-            .requestMatchers("/api/**").permitAll()
-            .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/users").permitAll()
-            .requestMatchers("/chessboard").permitAll() // Aggiungi questa riga
-            .requestMatchers("chessboard/{id}").permitAll()
-            .anyRequest().authenticated())
-        .exceptionHandling( exception -> exception
-            .authenticationEntryPoint(authenticationEntryPoint)
-        ).sessionManagement( session -> session
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.cors().and().csrf().disable()
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/users").permitAll()
+                        .requestMatchers("/chessboard").permitAll() // Aggiungi questa riga
+                        .requestMatchers("chessboard/{id}").permitAll()
+                        .requestMatchers("/send-numbers").permitAll()
+                        .anyRequest().authenticated())
+                .exceptionHandling( exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                ).sessionManagement( session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-    	http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    	return http.build();
+        return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Aggiungi le origini consentite
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge((long) 3600);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/ws/**", configuration);
+        return source;
+    }
 }

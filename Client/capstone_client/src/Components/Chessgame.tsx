@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./assets.componets.style/board.css";
 import Square from "./Square";
+import SockJS from "sockjs-client";
+import * as Stomp from 'stompjs';
+
 //white pieces
 const wPawn: string =
   "https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg";
@@ -27,6 +30,14 @@ const bKing: string =
   "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen: string =
   "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
+
+  interface UserData {
+    piecerow: number | null;
+    piececol: number | null;
+    moverow: number | null;
+    movecol: number | null;
+    room: String;
+  }
 interface ChessMoveData {
   id: number;
   primo: ChessPlayer;
@@ -57,7 +68,13 @@ interface UserRole {
 
 const ChessGame: React.FC = () => {
   const [isYourTurn, setIsYourTurn] = useState<Boolean>(false);
-  const [black, setblack] = useState<Boolean>(false);
+  const [black, setblack] = useState<Boolean>(true);
+  const [userData, setUserData] = useState<UserData>({
+    piecerow:null ,
+    piececol:null ,
+    moverow:null ,
+    movecol:null ,
+    room: ""});
   const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
     // Starting Chessboard
     ["R", "P", null, null, null, null, "p", "r"],
@@ -84,6 +101,34 @@ const ChessGame: React.FC = () => {
     [null, false, null, null, null, null, false, null],
     [null, false, null, null, null, null, false, null],
   ];
+  useEffect(() => {
+    const socket = new SockJS('http://localhost:8080/ws');
+    
+    socket.onopen = () => {
+      console.log('Connected to WebSocket');
+      
+      const pieceMove = {
+        startRow: 1,
+        startCol: 2,
+        endRow: 3,
+        endCol: 4,
+        room: 'roomName'
+      };
+    
+      socket.send(JSON.stringify(pieceMove));
+    };
+    
+    socket.onmessage = (event) => {
+      const payload = JSON.parse(event.data);
+      console.log('Received message:', payload);
+      // Gestisci la risposta ricevuta dal server WebSocket
+    };
+    
+    return () => {
+      socket.close();
+      console.log('Disconnected from WebSocket');
+    };
+  }, []);
 
   const fetchOppoMove = async (id: number) => {
     const response = await fetch(`http://localhost:8080/chessboard/${id}`);
@@ -201,8 +246,10 @@ const ChessGame: React.FC = () => {
     const piece = boardState[startRow][startCol];
     const pieceMove = boardState[endRow][endCol];
 
-    if (!black) {
       if (piece === "p") {
+        if (black) {
+          return false;
+        }
         if (pieceMove === null) {
           if (!(startRow - endRow === 0)) {
             return false;
@@ -233,8 +280,10 @@ const ChessGame: React.FC = () => {
             return false;
           }
         }
-      }
-    }else if (piece === "P") {
+      }else if (piece === "P") {
+        if (!black) {
+          return false
+        }
       if (pieceMove === null) {
         if (!(startRow - endRow === 0)) {
           return false;
@@ -242,7 +291,12 @@ const ChessGame: React.FC = () => {
         if (endCol < startCol) {
           return false;
         }
-        if (startCol - endCol < -2) {
+        if (isItFirstTime[startRow][startCol] === false) {
+          if (startCol - endCol < -2) {
+            return false;
+          }
+          isItFirstTime[startRow][startCol] = true;
+        } else if (startCol - endCol < -1) {
           return false;
         }
         //if pawn go on populated cell
@@ -288,3 +342,5 @@ const ChessGame: React.FC = () => {
 };
 
 export default ChessGame;
+
+

@@ -7,7 +7,10 @@
   }
   
   .chess-game {
+    margin-left: 20px;
+    margin-right: 20px;
     margin-top: 50px;
+    float: left; 
   }
   
   .chessrow {
@@ -51,7 +54,12 @@
     background-color: rgba(100, 35, 35, 0.795);
     background-repeat: repeat;
   }
-  
+  .infobox{
+    float: right;
+    width: 100%;
+    max-width: 40%;
+    margin-right: 20px;
+  }
  
 
   @media (max-width: 756px) {
@@ -81,5 +89,54 @@
     .piece:hover {
       width: 90%;
       height: 90%;
+    }
+    .chess-game {
+      margin-left:none;
+      margin-top: 50px;
+      float: none;
+    }
+    .infobox{
+      float: none;
+      width: 100%;
+    }
+  }
+ 
+  @media (max-width: 576px) {
+    .boardes {
+      margin-left: 0vh;
+      width: 100vh;
+      height: auto;
+      max-width: 550px;
+      padding: 10px;
+      background-color: rgba(165, 140, 58, 0.781);
+      box-sizing: border-box;
+    }
+  
+    .chess-game {
+      margin-top: 30px;
+    }
+  
+    .square {
+      height: 65px;
+    }
+  
+    .piece {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .piece:hover {
+      width: 90%;
+      height: 90%;
+    }
+    .chess-game {
+      margin-left:0px;
+      margin-top: 50px;
+      float: none;
+    }
+    .infobox{
+      margin-top: 10px;
+      float: none;
+      width: 100%;
     }
   }

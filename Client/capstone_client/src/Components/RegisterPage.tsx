@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface RegisterDto {
   name: string;
@@ -12,6 +12,7 @@ interface RegisterDto {
 }
 
 const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterDto>({
     name: '',
     username: '',
@@ -39,7 +40,7 @@ const RegisterPage: React.FC = () => {
           password: '',
           lastName: '',
           nationality: '',
-        });
+        });navigate("LoginPage")
       })
       .catch((error) => {
         console.log("non funziona",formData)
