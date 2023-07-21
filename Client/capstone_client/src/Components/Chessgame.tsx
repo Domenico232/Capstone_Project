@@ -3,6 +3,7 @@ import "./assets.componets.style/board.css";
 import Square from "./Square";
 import SockJS from "sockjs-client";
 import * as Stomp from 'stompjs';
+import { io } from "socket.io-client";
 
 //white pieces
 const wPawn: string =
@@ -69,12 +70,12 @@ interface UserRole {
 const ChessGame: React.FC = () => {
   const [isYourTurn, setIsYourTurn] = useState<Boolean>(false);
   const [black, setblack] = useState<Boolean>(true);
-  const [userData, setUserData] = useState<UserData>({
+  const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState<any>({
     piecerow:null ,
     piececol:null ,
     moverow:null ,
-    movecol:null ,
-    room: ""});
+    movecol:null });
   const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
     // Starting Chessboard
     ["R", "P", null, null, null, null, "p", "r"],
@@ -101,35 +102,28 @@ const ChessGame: React.FC = () => {
     [null, false, null, null, null, null, false, null],
     [null, false, null, null, null, null, false, null],
   ];
-  useEffect(() => {
-    const socket = new SockJS('http://localhost:8080/ws');
-    
-    socket.onopen = () => {
-      console.log('Connected to WebSocket');
-      
-      const pieceMove = {
-        startRow: 1,
-        startCol: 2,
-        endRow: 3,
-        endCol: 4,
-        room: 'roomName'
-      };
-    
-      socket.send(JSON.stringify(pieceMove));
-    };
-    
-    socket.onmessage = (event) => {
-      const payload = JSON.parse(event.data);
-      console.log('Received message:', payload);
-      // Gestisci la risposta ricevuta dal server WebSocket
-    };
-    
-    return () => {
-      socket.close();
-      console.log('Disconnected from WebSocket');
-    };
-  }, []);
+    useEffect(() => {
+      console.log('inUseEffect');
+      // Connect to the Socket.io server
+      const socket = io('http://localhost:31337', {
+        transports: ['websocket'],
+      });
+      socket.on('connect', () => {
+        console.log('Connected to the Socket.io server');
+      });
+      socket.on('user-id', (userId) => {
+        console.log('Received user ID:', userId);
+        setUserId(userId);
+      });
 
+      socket.on("'evento-cliente'", data =>{
+        console.log(data);
+      })
+
+      return () => {
+        socket.disconnect();
+      };
+    }, []);
   const fetchOppoMove = async (id: number) => {
     const response = await fetch(`http://localhost:8080/chessboard/${id}`);
     const jsonData: ChessMoveData = await response.json();
@@ -147,7 +141,7 @@ const ChessGame: React.FC = () => {
       jsonData.movecol
     );
   };
-
+  console.log(userId);
   const goOn = () => {
     fetchOppoMove(1);
   };
@@ -159,7 +153,7 @@ const ChessGame: React.FC = () => {
     newCol: number
   ) => {
     setSelectedPiece({ row, col });
-    handleSquareClick(newRow, newCol, { row, col }); // Passa il selectedPiece come argomento
+    handleSquareClick(newRow, newCol, { row, col });
   };
 
   const handleSquareClick = (
