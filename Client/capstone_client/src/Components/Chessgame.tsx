@@ -32,24 +32,6 @@ const bKing: string =
   "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen: string =
   "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
-
-  interface UserData {
-    piecerow: number | null;
-    piececol: number | null;
-    moverow: number | null;
-    movecol: number | null;
-    room: String;
-  }
-interface ChessMoveData {
-  id: number;
-  primo: ChessPlayer;
-  piecerow: number;
-  piececol: number;
-  moverow: number;
-  movecol: number;
-  secondo: ChessPlayer;
-}
-
 interface ChessPlayer {
   id: number;
   name: string;
@@ -118,6 +100,7 @@ const ChessGame: React.FC = () => {
 
     // Ricevi gli eventi dal server
     socket.on('evento-server', data => {
+      movePiece(data.row, data.col, data.newRow, data.newCol);
       console.log('Evento ricevuto dal server:', data);
     });
 
@@ -126,29 +109,6 @@ const ChessGame: React.FC = () => {
     };
   }, []);
 
-    const handleChessGameClick = () => {
-      const socket = io("http://localhost:31337", {
-        transports: ["websocket"],
-      });
-    
-      const username = "aramin"; // Sostituisci con il nome utente del destinatario
-      const eventData = {
-        data: "message",
-        recipient: username,
-      };
-    
-      socket.emit("evento-cliente", eventData);
-    };
-
-  const fakeMove = (
-    row: number,
-    col: number,
-    newRow: number,
-    newCol: number
-  ) => {
-    setSelectedPiece({ row, col });
-    handleSquareClick(newRow, newCol, { row, col });
-  };
 
   const handleSquareClick = (
     row: number,
@@ -157,7 +117,7 @@ const ChessGame: React.FC = () => {
   ) => {
     console.log(row, col);
     console.log(selectedPiece || selectedPiece); // Utilizza il selectedPiece passato come argomento
-
+  
     if (selectedPieces) {
       if (isMoveValid(selectedPieces.row, selectedPieces.col, row, col)) {
         movePiece(selectedPieces.row, selectedPieces.col, row, col);
@@ -313,16 +273,33 @@ const ChessGame: React.FC = () => {
     endCol: number
   ) => {
     const newBoardState = [...boardState];
-    console.log(newBoardState);
+    if (newBoardState[startRow][startCol]) {
+      console.log(newBoardState);
     const piece = newBoardState[startRow][startCol];
     newBoardState[startRow][startCol] = null;
     newBoardState[endRow][endCol] = piece;
+  
+    const socket = io("http://localhost:31337", {
+      transports: ["websocket"],
+    });
+
+    const username = "aramin";
+    const eventData = {
+      data: { row: selectedPieces?.row,col: selectedPieces?.col, newRow: endRow, newCol: endCol },
+      recipient: username,
+    };
+    console.log(eventData, "mossa inviata");
+    socket.emit("evento-cliente", eventData);
     setBoardState(newBoardState);
+    }else{
+      
+    }
+    
   };
 
   return (
     <div className="chess-game">
-      <h1 onClick={handleChessGameClick}>Chess Game</h1>
+      <h1>Chess Game</h1>
       {isYourTurn ? <div>your turn</div> : <div>Opponent turn</div>}
       {renderBoard()}
     </div>
