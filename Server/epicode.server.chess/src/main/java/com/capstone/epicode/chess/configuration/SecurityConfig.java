@@ -59,8 +59,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/users").permitAll()
+                        .requestMatchers("/users/username/{username}").permitAll()
                         .requestMatchers("/chessboard").permitAll() // Aggiungi questa riga
-                        .requestMatchers("chessboard/{id}").permitAll()
+                        .requestMatchers("/chessboard/{id}").permitAll()
                         .requestMatchers("/send-numbers").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling( exception -> exception

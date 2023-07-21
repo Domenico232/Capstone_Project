@@ -14,27 +14,30 @@ const io = socketIO(server);
 
 const connectedClients = new Map();
 
-// Definizione della funzione generateUniqueId al di fuori del listeners
-function generateUniqueId() {
-  return Math.random().toString(36).substr(2, 9);
-}
-
-io.on('connection', (socket) => {
+/*io.on('connection', (socket) => {
   console.log('Nuova connessione WebSocket:', socket.id);
 
-  const userId = generateUniqueId();
-  socket.emit('user-id', userId);
-  connectedClients.set(userId, socket);
+  let username = null;
+
+  socket.on('register-user', ({ userName }) => {
+    console.log('Utente registrato:', userName);
+    username = userName;
+    connectedClients.set(username, socket);
+  });
 
   socket.on('evento-cliente', ({ data }) => {
     console.log('Evento ricevuto dal client:', data);
+    console.log(connectedClients.get(username))
+    if (username) {
+      const recipientSocket = connectedClients.get(username);
 
-    const recipientSocket = connectedClients.get(userId);
-
-    if (recipientSocket) {
-      recipientSocket.emit('evento-server', data);
+      if (recipientSocket) {
+        recipientSocket.emit('evento-server', data);
+      } else {
+        console.log(`Utente con username ${username} non trovato.`);
+      }
     } else {
-      console.log(`Utente con ID ${userId} non trovato.`);
+      console.log('Nome utente non registrato per la connessione attuale.');
     }
   });
 
@@ -42,16 +45,56 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('Client disconnesso:', socket.id);
-    connectedClients.delete(userId);
+    if (username) {
+      connectedClients.delete(username);
+    }
+  });
+});*/
+function getConnectedUsers() {
+  return Array.from(connectedClients.keys());
+}
+
+io.on('connection', (socket) => {
+  console.log('Nuova connessione WebSocket:', socket.id);
+
+  socket.on('register-user', ({ userName }) => {
+    console.log('Utente registrato:', userName);
+    connectedClients.set(userName, socket);
+    const connectedUsers = getConnectedUsers();
+    console.log('Utenti connessi:', connectedUsers);
+  });
+
+  socket.on('evento-cliente', ({ data, recipient }) => {
+    console.log('Evento ricevuto dal client:', data);
+    console.log(recipient)
+    if (recipient) {
+      const recipientSocket = connectedClients.get(recipient); // Ottieni il socket del destinatario utilizzando l'username
+
+      if (recipientSocket) {
+        recipientSocket.emit('evento-server', data); // Invia il messaggio al destinatario
+      } else {
+        console.log(`Utente con username ${recipient} non trovato.`);
+      }
+    } else {
+      console.log('Nessun destinatario specificato per l\'evento.');
+    }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnesso:', socket.id);
+    // Rimuovi l'utente dalla mappa connectedClients quando si disconnette
+    connectedClients.forEach((value, key) => {
+      if (value === socket) {
+        connectedClients.delete(key);
+      }
+    });
   });
 });
-
 // Avvia il server
 const port = process.env.PORT || 31337;
 server.listen(port, () => {
   console.log(`Il server è in ascolto sulla porta ${port}`);
 });
-
 
 
 

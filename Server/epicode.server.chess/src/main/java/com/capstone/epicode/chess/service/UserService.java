@@ -70,6 +70,10 @@ public class UserService{
 			return dbUser.save(user);
 		//}
 	}
+	
+	  public User getByUsername(String username) {
+	        return dbUser.findByUsername(username);
+	    }
 
 		
 		

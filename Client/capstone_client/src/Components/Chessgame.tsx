@@ -4,6 +4,7 @@ import Square from "./Square";
 import SockJS from "sockjs-client";
 import * as Stomp from 'stompjs';
 import { io } from "socket.io-client";
+import { useLocation } from "react-router-dom";
 
 //white pieces
 const wPawn: string =
@@ -68,9 +69,11 @@ interface UserRole {
 }
 
 const ChessGame: React.FC = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const userName = pathname.split('/')[2];
   const [isYourTurn, setIsYourTurn] = useState<Boolean>(false);
   const [black, setblack] = useState<Boolean>(true);
-  const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<any>({
     piecerow:null ,
     piececol:null ,
@@ -102,49 +105,40 @@ const ChessGame: React.FC = () => {
     [null, false, null, null, null, null, false, null],
     [null, false, null, null, null, null, false, null],
   ];
-    useEffect(() => {
-      console.log('inUseEffect');
-      // Connect to the Socket.io server
-      const socket = io('http://localhost:31337', {
-        transports: ['websocket'],
-      });
-      socket.on('connect', () => {
-        console.log('Connected to the Socket.io server');
-      });
-      socket.on('user-id', (userId) => {
-        console.log('Received user ID:', userId);
-        setUserId(userId);
-      });
+  useEffect(() => {
+    console.log('inUseEffect');
+    // Connect to the Socket.io server
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
+    socket.on('connect', () => {
+      console.log('Connected to the Socket.io server');
+      socket.emit("register-user", { userName }); // Registra il nome utente del client lato server
+    });
 
-      socket.on("'evento-cliente'", data =>{
-        console.log(data);
-      })
+    // Ricevi gli eventi dal server
+    socket.on('evento-server', data => {
+      console.log('Evento ricevuto dal server:', data);
+    });
 
-      return () => {
-        socket.disconnect();
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+    const handleChessGameClick = () => {
+      const socket = io("http://localhost:31337", {
+        transports: ["websocket"],
+      });
+    
+      const username = "aramin"; // Sostituisci con il nome utente del destinatario
+      const eventData = {
+        data: "message",
+        recipient: username,
       };
-    }, []);
-  const fetchOppoMove = async (id: number) => {
-    const response = await fetch(`http://localhost:8080/chessboard/${id}`);
-    const jsonData: ChessMoveData = await response.json();
-    console.log(jsonData);
-    console.log(
-      "pezzo row, pezzo col + move row, move col " + jsonData.piecerow,
-      jsonData.piececol,
-      jsonData.moverow,
-      jsonData.movecol
-    );
-    fakeMove(
-      jsonData.piecerow,
-      jsonData.piececol,
-      jsonData.moverow,
-      jsonData.movecol
-    );
-  };
-  console.log(userId);
-  const goOn = () => {
-    fetchOppoMove(1);
-  };
+    
+      socket.emit("evento-cliente", eventData);
+    };
 
   const fakeMove = (
     row: number,
@@ -328,7 +322,7 @@ const ChessGame: React.FC = () => {
 
   return (
     <div className="chess-game">
-      <h1 onClick={goOn}>Chess Game</h1>
+      <h1 onClick={handleChessGameClick}>Chess Game</h1>
       {isYourTurn ? <div>your turn</div> : <div>Opponent turn</div>}
       {renderBoard()}
     </div>
