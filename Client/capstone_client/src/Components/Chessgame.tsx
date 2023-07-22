@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./assets.componets.style/board.css";
 import Square from "./Square";
-import SockJS from "sockjs-client";
-import * as Stomp from 'stompjs';
 import { io } from "socket.io-client";
 import { useLocation } from "react-router-dom";
 
@@ -272,8 +270,9 @@ const ChessGame: React.FC = () => {
     endRow: number,
     endCol: number
   ) => {
+    console.log(startRow,startCol,endRow,endCol)
     const newBoardState = [...boardState];
-    if (newBoardState[startRow][startCol]) {
+    if (startRow!==undefined) {
       console.log(newBoardState);
     const piece = newBoardState[startRow][startCol];
     newBoardState[startRow][startCol] = null;
@@ -283,7 +282,7 @@ const ChessGame: React.FC = () => {
       transports: ["websocket"],
     });
 
-    const username = "aramin";
+    const username = "player";
     const eventData = {
       data: { row: selectedPieces?.row,col: selectedPieces?.col, newRow: endRow, newCol: endCol },
       recipient: username,
