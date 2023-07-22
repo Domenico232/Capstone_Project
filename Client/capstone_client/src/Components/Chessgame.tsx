@@ -30,35 +30,16 @@ const bKing: string =
   "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen: string =
   "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
-interface ChessPlayer {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  lastName: string;
-  dataInserimento: string;
-  elo: number;
-  nationality: string;
-  roles: UserRole[];
-}
 
-interface UserRole {
-  id: number;
-  roleName: string;
-}
 
-const ChessGame: React.FC = () => {
+
+
+const ChessGame: React.FC  = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const userName = pathname.split('/')[2];
   const [isYourTurn, setIsYourTurn] = useState<Boolean>(false);
   const [black, setblack] = useState<Boolean>(true);
-  const [userData, setUserData] = useState<any>({
-    piecerow:null ,
-    piececol:null ,
-    moverow:null ,
-    movecol:null });
   const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
     // Starting Chessboard
     ["R", "P", null, null, null, null, "p", "r"],
@@ -192,76 +173,79 @@ const ChessGame: React.FC = () => {
     const piece = boardState[startRow][startCol];
     const pieceMove = boardState[endRow][endCol];
 
-      if (piece === "p") {
-        if (black) {
+  if (piece === "p") {
+    if (black) {
+      return false;
+    }
+    if (pieceMove === null) {
+      if (!(startRow - endRow === 0)) {
+        return false;
+      }
+      if (endCol > startCol) {
+        return false;
+      }
+      if (isItFirstTime[startRow][startCol] === false) {
+        if (startCol - endCol > 2) {
           return false;
         }
-        if (pieceMove === null) {
-          if (!(startRow - endRow === 0)) {
-            return false;
-          }
-          if (endCol > startCol) {
-            return false;
-          }
-          if (isItFirstTime[startRow][startCol] === false) {
-            if (startCol - endCol > 2) {
-              return false;
-            }
-            isItFirstTime[startRow][startCol] = true;
-          } else if (startCol - endCol > 1) {
-            return false;
-          }
+        isItFirstTime[startRow][startCol] = true;
+      } else if (startCol - endCol > 1) {
+        return false;
+      }
 
-          //if pawn go on populated cell
-        } else {
-          console.log("verify full cell_________________");
-          console.log(startRow - endRow);
-          console.log("&&");
-          console.log(startCol - endCol);
+      //if pawn go on populated cell
+    } else {
+      console.log("verify full cell_________________");
+      console.log(startRow - endRow);
+      console.log("&&");
+      console.log(startCol - endCol);
 
-          if (!(startRow - endRow === -1 && startCol - endCol === 1)) {
-            if (startRow - endRow === 1 && startCol - endCol === 1) {
-              return true;
-            }
-            return false;
-          }
+      if (!(startRow - endRow === -1 && startCol - endCol === 1)) {
+        if (startRow - endRow === 1 && startCol - endCol === 1) {
+          return true;
         }
-      }else if (piece === "P") {
-        if (!black) {
-          return false
-        }
-      if (pieceMove === null) {
-        if (!(startRow - endRow === 0)) {
-          return false;
-        }
-        if (endCol < startCol) {
-          return false;
-        }
-        if (isItFirstTime[startRow][startCol] === false) {
-          if (startCol - endCol < -2) {
-            return false;
-          }
-          isItFirstTime[startRow][startCol] = true;
-        } else if (startCol - endCol < -1) {
-          return false;
-        }
-        //if pawn go on populated cell
-      } else {
-        console.log("verify full cell_________________");
-        console.log(startRow - endRow);
-        console.log("&&");
-        console.log(startCol - endCol);
-
-        if (!(startRow - endRow === -1 && startCol - endCol === -1)) {
-          if (startRow - endRow === 1 && startCol - endCol === -1) {
-            return true;
-          }
-          return false;
-        }
+        return false;
       }
     }
+  }else if (piece === "P") {
+    if (!black) {
+      return false
+    }
+  if (pieceMove === null) {
+    if (!(startRow - endRow === 0)) {
+      return false;
+    }
+    if (endCol < startCol) {
+      return false;
+    }
+    if (isItFirstTime[startRow][startCol] === false) {
+      if (startCol - endCol < -2) {
+        return false;
+      }
+      isItFirstTime[startRow][startCol] = true;
+    } else if (startCol - endCol < -1) {
+      return false;
+    }
+    //if pawn go on populated cell
+  } else {
+    console.log("verify full cell_________________");
+    console.log(startRow - endRow);
+    console.log("&&");
+    console.log(startCol - endCol);
 
-    return true;
+    if (!(startRow - endRow === -1 && startCol - endCol === -1)) {
+      if (startRow - endRow === 1 && startCol - endCol === -1) {
+        return true;
+      }
+      return false;
+    }
+  }
+}
+
+return true;
+
+
+      
   };
 
   const movePiece = (
@@ -298,7 +282,6 @@ const ChessGame: React.FC = () => {
 
   return (
     <div className="chess-game">
-      <h1>Chess Game</h1>
       {isYourTurn ? <div>your turn</div> : <div>Opponent turn</div>}
       {renderBoard()}
     </div>
