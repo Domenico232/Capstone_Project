@@ -7,6 +7,7 @@ import "./App.css";
 import Home from './Components/Home';
 import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
+import Profile from './Components/Profile';
 
 function App() {
   return (
@@ -15,11 +16,11 @@ function App() {
     <BrowserRouter>
         <NavbarTop />
       <Routes>
-      <Route path="*" element={<RegisterPage />}>
-        </Route>
+      <Route path="*" element={<RegisterPage />}></Route>
         <Route path="LoginPage" element={<LoginPage />}></Route>
         <Route path="Home/:parametroNome" element={<Home />}>
         </Route>
+        <Route path="Profile/:parametroNome" element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
     </div>

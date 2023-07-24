@@ -26,6 +26,7 @@ const Home:React.FC = () =>{
   const location = useLocation();
   const pathname = location.pathname;
   const userName = pathname.split('/')[2];
+
   async function fetchData(url:String) {
     try {
       const response = await fetch(`http://localhost:8080/users/username/${url}`);
@@ -42,6 +43,7 @@ const Home:React.FC = () =>{
       throw error;
     }
   }
+  
   useEffect(() => {
     fetchData(userName);
   }, []);

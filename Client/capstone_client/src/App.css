@@ -28,4 +28,78 @@ html body{
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   background-color: rgb(90, 48, 1) !important;
 }
+/*c*/
+.profile-container {
+  padding: 20px;
+}
 
+header {
+  background-color: rgba(151, 98, 0, 0.925);
+  border: 2px solid rgb(90, 48, 1);
+  padding: 20px;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 32px;
+  flex-grow: 1;
+}
+
+.header-image {
+  width: 50px; /* Set the desired width for the image */
+  height: 50px; /* Set the desired height for the image */
+  margin-right: 10px;
+  /* Add any other styles for the image as needed */
+}
+
+
+.profile-info p {
+  margin: 8px 0;
+}
+
+.friends-list {
+  margin-top: 20px;
+}
+
+.friends-list h2 {
+  margin: 0;
+}
+
+.friends-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.friends-list li {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+}
+
+.friends-list li button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: rgba(151, 98, 0, 0.925);
+  border: 2px solid rgb(90, 48, 1);
+  color: white;
+  cursor: pointer;
+}
+
+.friends-list li button:hover {
+  background-color: rgb(90, 48, 1);
+}
+
+.paragraph{
+  background-color: rgb(90, 48, 1) ;
+  border: 2px solid rgba(151, 98, 0, 0.925);
+  padding: 3px;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
