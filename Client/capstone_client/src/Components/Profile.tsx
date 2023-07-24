@@ -113,7 +113,7 @@ const Profile: React.FC = () => {
                   <span className="h5">
                     {friend.name} ({friend.username})
                   </span>{" "}
-                  <Link className="btn btn-black">Invite to Play</Link>
+                  <Link to={"home"} className="btn btn-black">Invite to Play</Link>
                 </li>
               ))}
             </ul>:<></>}
