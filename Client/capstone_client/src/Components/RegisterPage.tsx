@@ -9,6 +9,7 @@ interface RegisterDto {
   password: string;
   lastName: string;
   nationality: string;
+  roles:String[]
 }
 
 const RegisterPage: React.FC = () => {
@@ -20,6 +21,7 @@ const RegisterPage: React.FC = () => {
     password: '',
     lastName: '',
     nationality: '',
+    roles:["user"]
   });
 
   const handleRegister = () => {
@@ -40,11 +42,13 @@ const RegisterPage: React.FC = () => {
           password: '',
           lastName: '',
           nationality: '',
+          roles:[]
         });navigate("LoginPage")
       })
       .catch((error) => {
         console.log("non funziona",formData)
         console.error(error);
+        navigate("LoginPage")
       });
   };
 
@@ -65,7 +69,7 @@ const RegisterPage: React.FC = () => {
     <Row className='formStyle'>
       <Col sm={2} lg={4} md={3} />
 
-      <Col sm={8} lg={4} md={6} >
+      <Col sm={8} lg={4} md={6} className='formStyle1'>
         <h1>Register</h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="name">
@@ -98,10 +102,10 @@ const RegisterPage: React.FC = () => {
             <Form.Control type="text" name="nationality" value={formData.nationality} onChange={handleChange} required />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className='my-4 mx-1 border-0'>
             Register
           </Button>
-          <Link to="/LoginPage">Arledy registered?</Link>
+          <Link to="/LoginPage" className='links'>Arledy registered?</Link>
         </Form>
 
       </Col>

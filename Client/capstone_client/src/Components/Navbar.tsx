@@ -10,18 +10,7 @@ const NavbarTop:React.FC = () =>{
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link >Home</Nav.Link>
-            <Nav.Link >Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item >Action</NavDropdown.Item>
-              <NavDropdown.Item >
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item >Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item >
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link >Profile</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
