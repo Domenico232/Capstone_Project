@@ -127,7 +127,7 @@ const Profile: React.FC = () => {
   function acceptedChallenge(acceptChallenger: String): void {
     const acceptData = {
       recipient:acceptChallenger,
-      data:userName 
+      data:userName
     }
     socket.emit('challenge-accepted', acceptData);
     navigate(`/chessgame/${userName}/${acceptChallenger}`);

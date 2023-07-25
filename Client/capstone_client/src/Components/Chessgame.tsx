@@ -110,6 +110,7 @@ const ChessGame: React.FC  = () => {
 
     // Ricevi gli eventi dal server
     socket.on('evento-server', data => {
+      setIsYourTurn(!isYourTurn)
       movePiece(data.row, data.col, data.newRow, data.newCol);
       console.log('Evento ricevuto dal server:', data);
     });
