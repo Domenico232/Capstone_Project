@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import ChessGame from "./Chessgame";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { io } from "socket.io-client";
-import { Console } from "console";
 
 interface ChessPlayer {
   id: number;

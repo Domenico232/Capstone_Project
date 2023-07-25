@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./assets.componets.style/board.css";
 import Square from "./Square";
@@ -135,6 +136,7 @@ const ChessGame: React.FC  = () => {
   const handleMessageSend = () => {
     if (inputValue.trim() !== '') {
       setMessages((prevMessages) => [...prevMessages, { text: inputValue, sender: 'You' }]);
+      console.log(inputValue)
       setInputValue('');
     }
   };
@@ -348,15 +350,18 @@ return true;
         </Col>
         <Col sm={12} md={12} lg={12} xxl={4} className="d-flex justify-content-cente">
           <div className="infobox ">
-            {playerData && <div>{playerData.lastName}</div>}
-            <div className="messageBox">
-      <ul>
+          <ul className="messageList">
+            <li className="lideco">mariong</li>
         {messages?.map((message, index) => (
           <li key={index}>{`${message.sender}: ${message.text}`}</li>
         ))}
       </ul>
+            <div className="messageBox">
+            {playerData && <div>{playerData.lastName}</div>}
+     
       <input
         type="text"
+        className="me-5 textboxcolor"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={(e) => {
@@ -365,7 +370,7 @@ return true;
           }
         }}
       />
-      <button onClick={handleMessageSend}>Send</button>
+      <button className="btn btn-black" onClick={handleMessageSend}>Send</button>
     </div>
           </div>
         </Col>

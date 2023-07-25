@@ -74,6 +74,23 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('message-sent', ({ data, recipient }) => {
+    console.log('Evento ricevuto dal client:', data);
+    console.log(recipient)
+    if (recipient) {
+      const recipientSocket = connectedClients.get(recipient); 
+
+      if (recipientSocket) {
+        recipientSocket.emit('message-recived', data); // Invia il messaggio al destinatario
+      } else {
+        console.log(`Utente con username ${recipient} non trovato.`);
+      }
+    } else {
+      console.log('Nessun destinatario specificato per l\'evento.');
+    }
+  });
+
+
   socket.on('disconnect', () => {
     console.log('Client disconnesso:', socket.id);
     // Rimuovi l'utente dalla mappa connectedClients quando si disconnette

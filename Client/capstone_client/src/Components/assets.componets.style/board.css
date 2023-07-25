@@ -51,10 +51,87 @@
   }
   
   .piece:active {
-    background-color: rgba(100, 35, 35, 0.795);
+    background-color: rgb(248, 181, 57);
     background-repeat: repeat;
   }
  
+
+  
+
+  .blackbox{
+    text-align: center;
+    border: solid white 2px;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    margin-top: 20px;
+    width: 120px;
+  }
+
+  .whitebox{
+    text-align: center;
+    border: solid black 2px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin-top: 20px;
+    width: 120px;
+  }
+
+  .infobox{
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-end;
+    align-items: center;
+    height: 400px;
+    width: 400px;
+    margin-top: 80px;
+    border: solid 1px black;
+    background-color: rgb(90, 48, 1) ;
+    border: 2px solid rgb(151, 98, 0);
+    padding: 3px;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  .messageList{
+    list-style: none;
+    color:rgb(173, 117, 13) ;
+  }
+  .lideco{
+    list-style: none;
+  }
+  .messageBox{
+    width: 100%;
+    background-color: rgb(90, 48, 1) ;
+    border: 2px solid rgb(151, 98, 0);
+    padding: 3px;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+  }
+  .paragraph{
+    background-color: rgb(90, 48, 1) ;
+    border: 2px solid rgb(151, 98, 0);
+    padding: 3px;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  .textboxcolor{
+    background-color: rgb(90, 48, 1) ;
+    border: 2px solid rgb(151, 98, 0);
+    color: rgb(173, 117, 13);
+    padding: 3px;
+  }
 
   @media (max-width: 756px) {
     .boardes {
@@ -79,6 +156,12 @@
       width: 50px;
       height: 50px;
     }
+    .infobox{
+      width: 100%;
+    }
+    .textboxcolor{
+      width: 80%;
+    }
   
     .piece:hover {
       width: 90%;
@@ -86,7 +169,7 @@
     }
     .chess-game {
       margin-left:none;
-      margin-top: 50px;
+      margin-top: 100px;
       float: none;
     }
   }
@@ -100,6 +183,10 @@
       padding: 10px;
       background-color: rgba(165, 140, 58, 0.781);
       box-sizing: border-box;
+    }
+
+    .infobox{
+      width: 100%;
     }
   
     .chess-game {
@@ -120,28 +207,7 @@
       height: 90%;
     }
     .chess-game {
+      margin-top: 100px;
       margin-left:0px;
-      margin-top: 50px;
-      float: none;
     }
-  }
-
-  .blackbox{
-    text-align: center;
-    border: solid white 2px;
-    background-color: black;
-    border-radius: 10px;
-    color: white;
-    margin-top: 20px;
-    width: 120px;
-  }
-
-  .whitebox{
-    text-align: center;
-    border: solid black 2px;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    margin-top: 20px;
-    width: 120px;
   }
