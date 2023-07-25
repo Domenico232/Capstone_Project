@@ -42,10 +42,10 @@ io.on('connection', (socket) => {
     console.log('Utenti connessi:', connectedUsers);
   });
 
-  socket.on('evento-cliente', ({ data, recipientes }) => {
+  socket.on('evento-cliente', ({ data, recipient }) => {
     console.log('Evento ricevuto dal client:', data);
-    console.log(recipientes)
-    if (recipientes) {
+    console.log(recipient)
+    if (recipient) {
       const recipientSocket = connectedClients.get(recipient);
 
       if (recipientSocket) {

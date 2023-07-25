@@ -296,11 +296,9 @@ return true;
     const socket = io("http://localhost:31337", {
       transports: ["websocket"],
     });
-
-    const username = "player";
     const eventData = {
       data: { row: selectedPieces?.row,col: selectedPieces?.col, newRow: endRow, newCol: endCol },
-      recipient: username,
+      recipient:param2,
     };
     console.log(eventData, "mossa inviata");
     socket.emit("evento-cliente", eventData);
