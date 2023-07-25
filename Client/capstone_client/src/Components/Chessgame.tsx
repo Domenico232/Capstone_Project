@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./assets.componets.style/board.css";
 import Square from "./Square";
 import { io } from "socket.io-client";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 //white pieces
 const wPawn: string =
@@ -30,14 +30,28 @@ const bKing: string =
   "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg";
 const bQueen: string =
   "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg";
-
+  interface ChessPlayer {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    lastName: string;
+    dataInserimento: string;
+    elo: number;
+    nationality: string;
+    roles: UserRole[];
+  }interface UserRole {
+    id: number;
+    roleName: string;
+  }
 
 
 
 const ChessGame: React.FC  = () => {
-  const location = useLocation();
-  const pathname = location.pathname;
-  const userName = pathname.split('/')[2];
+  const { userName, param2 } = useParams<{ userName: string; param2: string }>();
+  console.log("param2:", param2);
+  const [playerData, setplayerData] = useState<ChessPlayer>();
   const [isYourTurn, setIsYourTurn] = useState<Boolean>(false);
   const [black, setblack] = useState<Boolean>(true);
   const [boardState, setBoardState] = useState<Array<Array<string | null>>>([
@@ -66,7 +80,24 @@ const ChessGame: React.FC  = () => {
     [null, false, null, null, null, null, false, null],
     [null, false, null, null, null, null, false, null],
   ];
+  async function fetchData(url:String) {
+    try {
+      const response = await fetch(`http://localhost:8080/users/username/${url}`);
+      if (!response.ok) {
+        throw new Error('Errore nella richiesta'); 
+      }
+  
+      const data = await response.json(); 
+     console.log(data)
+     setplayerData(data);
+     
+    } catch (error:unknown) {
+      console.error('Si è verificato un errore:', error);
+      throw error;
+    }
+  }
   useEffect(() => {
+    fetchData(userName!);
     console.log('inUseEffect');
     // Connect to the Socket.io server
     const socket = io('http://localhost:31337', {
@@ -281,10 +312,14 @@ return true;
   };
 
   return (
+    <>
     <div className="chess-game">
       {isYourTurn ? <div>your turn</div> : <div>Opponent turn</div>}
       {renderBoard()}
     </div>
+    <div className="infobox">
+    {playerData && <div>{playerData.lastName}</div>}
+  </div></>
   );
 };
 

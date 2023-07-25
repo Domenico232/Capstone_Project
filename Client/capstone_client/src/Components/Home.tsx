@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import ChessGame from "./Chessgame";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 interface ChessPlayer {
   id: number;
   name: string;
@@ -21,11 +21,9 @@ interface ChessPlayer {
 
 
 const Home:React.FC = () =>{
-  
+  const { userName, param2 } = useParams<{ userName: string; param2: string }>();
+  console.log("param2:", param2);
   const [playerData, setplayerData] = useState<ChessPlayer>();
-  const location = useLocation();
-  const pathname = location.pathname;
-  const userName = pathname.split('/')[2];
 
   async function fetchData(url:String) {
     try {
@@ -45,7 +43,7 @@ const Home:React.FC = () =>{
   }
   
   useEffect(() => {
-    fetchData(userName);
+    fetchData(userName!);
   }, []);
 
 

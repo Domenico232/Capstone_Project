@@ -8,6 +8,7 @@ import Home from './Components/Home';
 import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 import Profile from './Components/Profile';
+import ChessGame from './Components/Chessgame';
 
 function App() {
   return (
@@ -18,9 +19,9 @@ function App() {
       <Routes>
       <Route path="*" element={<RegisterPage />}></Route>
         <Route path="LoginPage" element={<LoginPage />}></Route>
-        <Route path="Home/:parametroNome" element={<Home />}>
+        <Route path="chessgame/:userName/:param2" element={<ChessGame />}>
         </Route>
-        <Route path="Profile/:parametroNome" element={<Profile />}></Route>
+        <Route path="Profile/:param1/" element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
     </div>

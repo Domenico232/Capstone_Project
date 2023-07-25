@@ -104,7 +104,7 @@ const Profile: React.FC = () => {
 
     socket.on('start-game', (data)=>{
       console.log("StartGame",data);
-      navigate(`/Home/${userName}/${data}`);
+      navigate(`/chessgame/${userName}/${data}`);
     }); 
 
     return () => {
@@ -130,7 +130,7 @@ const Profile: React.FC = () => {
       data:userName 
     }
     socket.emit('challenge-accepted', acceptData);
-    navigate(`/Home/${userName}/${acceptChallenger}`);
+    navigate(`/chessgame/${userName}/${acceptChallenger}`);
   }
 
   return (
