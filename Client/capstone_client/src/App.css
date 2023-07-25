@@ -95,7 +95,7 @@ h1 {
 
 .paragraph{
   background-color: rgb(90, 48, 1) ;
-  border: 2px solid rgba(151, 98, 0, 0.925);
+  border: 2px solid rgb(151, 98, 0);
   padding: 3px;
   color: white;
   text-align: center;

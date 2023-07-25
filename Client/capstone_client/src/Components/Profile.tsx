@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import ChessGame from "./Chessgame";
-import { Link, useLocation } from "react-router-dom";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { io } from "socket.io-client";
+import { Console } from "console";
 
 interface ChessPlayer {
   id: number;
@@ -22,10 +24,16 @@ interface UserRole {
 }
 
 const Profile: React.FC = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname;
     const userName = pathname.split('/')[2];
 
+  const [usersChallengers, setUsersChallengers] = useState<Array<String>>([])
+
+  const socket = io('http://localhost:31337', {
+    transports: ['websocket'],
+  });
   // Replace this with your actual user data
   const [userData, setUserData] = useState<ChessPlayer>( {
     id: 0,
@@ -40,6 +48,7 @@ const Profile: React.FC = () => {
     roles: [{ id: 0, roleName: "" }],
   });
   const [friendsList, setFriendsList] = useState<Array<ChessPlayer> | null>(null);
+
 
   async function fetchUsers() {
     try {
@@ -65,7 +74,7 @@ const Profile: React.FC = () => {
         throw new Error('Errore nella richiesta'); 
       }
   
-      const data = await response.json(); 
+     const data = await response.json(); 
      console.log(data)
      setUserData(data);
      
@@ -74,10 +83,55 @@ const Profile: React.FC = () => {
       throw error;
     }
   }
+
   useEffect(() => {
     fetchUsers();
     fetchUser(userName);
+    console.log('inUseEffect');
+    // Connect to the Socket.io server
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
+    socket.on('connect', () => {
+      console.log('Connected to the Socket.io server');
+      socket.emit("register-user", { userName }); // Registra il nome utente del client lato server
+    });
+
+    socket.on('invite-received', (data) =>{
+      console.log(data)
+      setUsersChallengers([...usersChallengers, data.senderUsername])
+    });
+
+    socket.on('start-game', (data)=>{
+      console.log("StartGame",data);
+      navigate(`/Home/${userName}/${data}`);
+    }); 
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
+
+  function challenge(nome:String): void {
+
+
+  const inviteData = {
+    senderUsername: userData.username,
+    recipientUsername: nome,
+  };
+
+  socket.emit('send-invite', inviteData);
+
+  }
+
+  function acceptedChallenge(acceptChallenger: String): void {
+    const acceptData = {
+      recipient:acceptChallenger,
+      data:userName 
+    }
+    socket.emit('challenge-accepted', acceptData);
+    navigate(`/Home/${userName}/${acceptChallenger}`);
+  }
 
   return (
     <Container className="profile-container mt-5">
@@ -103,6 +157,18 @@ const Profile: React.FC = () => {
             <p className="h5">{userData.elo} Elo</p>
           </div>
         </Col>
+
+        <Col xs={12} md={6}>
+        {usersChallengers && usersChallengers.map((singleChallenge,i)=> (
+          <div className="profile-info paragraph" key={i}>
+            
+            <p className="h5 mr-5">{singleChallenge}</p>
+            <p className="h5">Challenged You! <button onClick={()=>acceptedChallenge(singleChallenge)}>Accept</button> <button onClick={()=>setUsersChallengers([])}>Decline</button></p>
+
+          </div>
+            ))}
+            </Col>
+
         <Col xs={12} md={6}>
           <div className="friends-list paragraph">
             
@@ -113,7 +179,7 @@ const Profile: React.FC = () => {
                   <span className="h5">
                     {friend.name} ({friend.username})
                   </span>{" "}
-                  <Link to={"home"} className="btn btn-black">Invite to Play</Link>
+                  <Button className="btn btn-black" onClick={() => challenge(friend.username)}>Invite to Play</Button>
                 </li>
               ))}
             </ul>:<></>}

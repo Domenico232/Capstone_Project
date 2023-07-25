@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
         });
         localStorage.setItem('token', data.accessToken);
         console.log(data.username)
-        navigate(`/Home/${data.username}`);
+        navigate(`/Profile/${data.username}`);
       })
       .catch((error) => {
         console.error(error);

@@ -14,48 +14,26 @@ const io = socketIO(server);
 
 const connectedClients = new Map();
 
-/*io.on('connection', (socket) => {
-  console.log('Nuova connessione WebSocket:', socket.id);
-
-  let username = null;
-
-  socket.on('register-user', ({ userName }) => {
-    console.log('Utente registrato:', userName);
-    username = userName;
-    connectedClients.set(username, socket);
-  });
-
-  socket.on('evento-cliente', ({ data }) => {
-    console.log('Evento ricevuto dal client:', data);
-    console.log(connectedClients.get(username))
-    if (username) {
-      const recipientSocket = connectedClients.get(username);
-
-      if (recipientSocket) {
-        recipientSocket.emit('evento-server', data);
-      } else {
-        console.log(`Utente con username ${username} non trovato.`);
-      }
-    } else {
-      console.log('Nome utente non registrato per la connessione attuale.');
-    }
-  });
-
-  socket.emit("message", "ciao");
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnesso:', socket.id);
-    if (username) {
-      connectedClients.delete(username);
-    }
-  });
-});*/
 function getConnectedUsers() {
   return Array.from(connectedClients.keys());
 }
 
 io.on('connection', (socket) => {
   console.log('Nuova connessione WebSocket:', socket.id);
+
+  socket.on('send-invite', ({ senderUsername, recipientUsername }) => {
+    console.log(`Invito ricevuto da ${senderUsername} per ${recipientUsername}`);
+    
+    const recipientSocket = connectedClients.get(recipientUsername);
+
+    if (recipientSocket) {
+      // Invia l'invito al destinatario
+      recipientSocket.emit('invite-received', { senderUsername });
+      console.log('Invito inviato al destinatario.');
+    } else {
+      console.log(`Utente con username ${recipientUsername} non trovato.`);
+    }
+  });
 
   socket.on('register-user', ({ userName }) => {
     console.log('Utente registrato:', userName);
@@ -64,14 +42,30 @@ io.on('connection', (socket) => {
     console.log('Utenti connessi:', connectedUsers);
   });
 
-  socket.on('evento-cliente', ({ data, recipient }) => {
+  socket.on('evento-cliente', ({ data, recipientes }) => {
+    console.log('Evento ricevuto dal client:', data);
+    console.log(recipientes)
+    if (recipientes) {
+      const recipientSocket = connectedClients.get(recipient);
+
+      if (recipientSocket) {
+        recipientSocket.emit('evento-server', data); 
+      } else {
+        console.log(`Utente con username ${recipient} non trovato.`);
+      }
+    } else {
+      console.log('Nessun destinatario specificato per l\'evento.');
+    }
+  });
+
+  socket.on('challenge-accepted', ({ data, recipient }) => {
     console.log('Evento ricevuto dal client:', data);
     console.log(recipient)
     if (recipient) {
-      const recipientSocket = connectedClients.get(recipient); // Ottieni il socket del destinatario utilizzando l'username
+      const recipientSocket = connectedClients.get(recipient); 
 
       if (recipientSocket) {
-        recipientSocket.emit('evento-server', data); // Invia il messaggio al destinatario
+        recipientSocket.emit('start-game', data); // Invia il messaggio "start-game" al destinatario
       } else {
         console.log(`Utente con username ${recipient} non trovato.`);
       }
