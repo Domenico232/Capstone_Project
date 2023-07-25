@@ -30,9 +30,7 @@ const Profile: React.FC = () => {
 
   const [usersChallengers, setUsersChallengers] = useState<Array<String>>([])
 
-  const socket = io('http://localhost:31337', {
-    transports: ['websocket'],
-  });
+ 
   // Replace this with your actual user data
   const [userData, setUserData] = useState<ChessPlayer>( {
     id: 0,
@@ -84,13 +82,14 @@ const Profile: React.FC = () => {
   }
 
   useEffect(() => {
+
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
     fetchUsers();
     fetchUser(userName);
     console.log('inUseEffect');
     // Connect to the Socket.io server
-    const socket = io('http://localhost:31337', {
-      transports: ['websocket'],
-    });
     socket.on('connect', () => {
       console.log('Connected to the Socket.io server');
       socket.emit("register-user", { userName }); // Registra il nome utente del client lato server
@@ -112,6 +111,10 @@ const Profile: React.FC = () => {
   }, []);
 
   function challenge(nome:String): void {
+
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
    const inviteData = {
     senderUsername: userData.username,
     recipientUsername: nome,
@@ -121,6 +124,10 @@ const Profile: React.FC = () => {
   }
 
   function acceptedChallenge(acceptChallenger: String): void {
+
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
     const acceptData = {
       recipient:acceptChallenger,
       data:userName

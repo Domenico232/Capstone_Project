@@ -53,9 +53,9 @@ const bQueen: string =
 const ChessGame: React.FC  = () => {
 
   
-  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
+  const [messages, setMessages] = useState<{ text: string; sender: string|undefined }[]>([]);
   const [inputValue, setInputValue] = useState('');
-
+ 
   const { userName, param2, borw } = useParams<{ userName: string; param2: string; borw: string }>();
   console.log("Black or White:", borw);
   const [playerData, setplayerData] = useState<ChessPlayer>();
@@ -104,6 +104,11 @@ const ChessGame: React.FC  = () => {
     }
   }
   useEffect(() => {
+
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
+
     console.log(borw)
     if (borw === "white") {
       setblack(false)
@@ -112,13 +117,17 @@ const ChessGame: React.FC  = () => {
     fetchData(userName!);
     console.log('inUseEffect');
     // Connect to the Socket.io server
-    const socket = io('http://localhost:31337', {
-      transports: ['websocket'],
-    });
+   
     socket.on('connect', () => {
       console.log('Connected to the Socket.io server');
       socket.emit("register-user", { userName }); // Registra il nome utente del client lato server
     });
+
+    socket.on("message-recived", data => {
+      console.log("message-recived",data)
+      setMessages((prevMessages) => [...prevMessages, { text: data, sender: param2 }]);
+
+    })
 
     // Ricevi gli eventi dal server
     socket.on('evento-server', data => {
@@ -134,8 +143,17 @@ const ChessGame: React.FC  = () => {
 
 
   const handleMessageSend = () => {
+    const socket = io('http://localhost:31337', {
+      transports: ['websocket'],
+    });
+
     if (inputValue.trim() !== '') {
       setMessages((prevMessages) => [...prevMessages, { text: inputValue, sender: 'You' }]);
+      const data = {
+        recipient:param2,
+        data:inputValue
+      }
+      socket.emit('message-sent', data)
       console.log(inputValue)
       setInputValue('');
     }

@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message-sent', ({ data, recipient }) => {
-    console.log('Evento ricevuto dal client:', data);
+    console.log('Messaggio ricevuto dal client:', data);
     console.log(recipient)
     if (recipient) {
       const recipientSocket = connectedClients.get(recipient); 
