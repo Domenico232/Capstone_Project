@@ -159,8 +159,8 @@ const Profile: React.FC = () => {
         {usersChallengers && usersChallengers.map((singleChallenge,i)=> (
           <div className="profile-info paragraph" key={i}>
             
-            <p className="h5 mr-5">{singleChallenge}</p>
-            <p className="h5">Challenged You! <button onClick={()=>acceptedChallenge(singleChallenge)}>Accept</button> <button onClick={()=>setUsersChallengers([])}>Decline</button></p>
+            <p className="h5 mx-2">{singleChallenge}</p>
+            <p className="h5">Challenged You! <button className="btn btn-black" onClick={()=>acceptedChallenge(singleChallenge)}>Accept</button> <button className="btn btn-warning" onClick={()=>setUsersChallengers([])}>Decline</button></p>
 
           </div>
             ))}

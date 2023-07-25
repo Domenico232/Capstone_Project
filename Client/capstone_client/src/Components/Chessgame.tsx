@@ -3,6 +3,7 @@ import "./assets.componets.style/board.css";
 import Square from "./Square";
 import { io } from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 
 //white pieces
 const wPawn: string =
@@ -49,6 +50,11 @@ const bQueen: string =
 
 
 const ChessGame: React.FC  = () => {
+
+  
+  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
+  const [inputValue, setInputValue] = useState('');
+
   const { userName, param2, borw } = useParams<{ userName: string; param2: string; borw: string }>();
   console.log("Black or White:", borw);
   const [playerData, setplayerData] = useState<ChessPlayer>();
@@ -125,6 +131,13 @@ const ChessGame: React.FC  = () => {
     };
   }, []);
 
+
+  const handleMessageSend = () => {
+    if (inputValue.trim() !== '') {
+      setMessages((prevMessages) => [...prevMessages, { text: inputValue, sender: 'You' }]);
+      setInputValue('');
+    }
+  };
 
   const handleSquareClick = (
     row: number,
@@ -324,15 +337,42 @@ return true;
 
   return (
     <>
-    <div className="chess-game">
-      {!isYourTurn && <div>Opponent turn</div>}
-      {renderBoard()}
-      {isYourTurn && <div>your turn</div>}
+    <Container fluid>
+      <Row>
+        <Col sm={12} md={12} lg={12} xxl={8}>
+          <div className="chess-game">
+            
+            {renderBoard()}
+            {isYourTurn ? <div className={!black ? "whitebox":"blackbox"}>your turn</div>: <div className={black ? "whitebox":"blackbox"} >Opponent turn</div>}
+          </div>
+        </Col>
+        <Col sm={12} md={12} lg={12} xxl={4} className="d-flex justify-content-cente">
+          <div className="infobox ">
+            {playerData && <div>{playerData.lastName}</div>}
+            <div className="messageBox">
+      <ul>
+        {messages?.map((message, index) => (
+          <li key={index}>{`${message.sender}: ${message.text}`}</li>
+        ))}
+      </ul>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleMessageSend();
+          }
+        }}
+      />
+      <button onClick={handleMessageSend}>Send</button>
     </div>
-    <div className="infobox">
-    {playerData && <div>{playerData.lastName}</div>}
-  </div></>
-  );
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  </>
+);
 };
 
 export default ChessGame;

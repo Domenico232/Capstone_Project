@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import "./assets.componets.style/navbar.css"
 const NavbarTop:React.FC = () =>{
   return (
-    <Navbar expand="xl" className="topBar fixed-top">
+    <Navbar expand="xl" className="topBar fixed-top ">
          <Container>
         <Navbar.Brand >ChillChess</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -9,7 +9,7 @@
   .chess-game {
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: 50px;
+    margin-top: 100px;
     float: left; 
   }
   
@@ -54,12 +54,6 @@
     background-color: rgba(100, 35, 35, 0.795);
     background-repeat: repeat;
   }
-  .infobox{
-    float: right;
-    width: 100%;
-    max-width: 40%;
-    margin-right: 20px;
-  }
  
 
   @media (max-width: 756px) {
@@ -94,10 +88,6 @@
       margin-left:none;
       margin-top: 50px;
       float: none;
-    }
-    .infobox{
-      float: none;
-      width: 100%;
     }
   }
  
@@ -134,9 +124,24 @@
       margin-top: 50px;
       float: none;
     }
-    .infobox{
-      margin-top: 10px;
-      float: none;
-      width: 100%;
-    }
+  }
+
+  .blackbox{
+    text-align: center;
+    border: solid white 2px;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    margin-top: 20px;
+    width: 120px;
+  }
+
+  .whitebox{
+    text-align: center;
+    border: solid black 2px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin-top: 20px;
+    width: 120px;
   }
