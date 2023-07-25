@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavbarTop from './Components/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Home from './Components/Home';
 import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 import Profile from './Components/Profile';
