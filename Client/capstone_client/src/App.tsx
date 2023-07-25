@@ -18,7 +18,7 @@ function App() {
       <Routes>
       <Route path="*" element={<RegisterPage />}></Route>
         <Route path="LoginPage" element={<LoginPage />}></Route>
-        <Route path="chessgame/:userName/:param2" element={<ChessGame />}>
+        <Route path="chessgame/:userName/:param2/:borw" element={<ChessGame />}>
         </Route>
         <Route path="Profile/:param1/" element={<Profile />}></Route>
       </Routes>
