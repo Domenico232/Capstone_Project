@@ -8,6 +8,7 @@ import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 import Profile from './Components/Profile';
 import ChessGame from './Components/Chessgame';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="Profile/:param1/" element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
+    <Footer />
     </div>
     
   );
